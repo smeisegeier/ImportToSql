@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Rki.ImportToSql.ViewModels;
+using Rki.ImportToSql.Views;
 using System.Windows;
 
 namespace Rki.ImportToSql
@@ -13,5 +9,11 @@ namespace Rki.ImportToSql
     /// </summary>
     public partial class App : Application
     {
+        public void ApplicationStartup(object sender, StartupEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.DataContext = new MainWindowViewModel();
+            mainWindow.Show();
+        }
     }
 }

@@ -1,10 +1,12 @@
-﻿<Window x:Class="Rki.ImportToSql.MainWindow"
+﻿<Window x:Class="Rki.ImportToSql.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Rki.ImportToSql"
+        xmlns:local="clr-namespace:Rki.ImportToSql.Views"
         mc:Ignorable="d"
+        xmlns:vm="clr-namespace:Rki.ImportToSql.ViewModels"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="Import this" Height="400" Width="400">
     <Grid>
 
@@ -12,9 +14,13 @@
             <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
                 <Label x:Name="Header" Content="Import" FontSize="24" FontWeight="Bold" Margin="0,10,0,10"/>
             </StackPanel>
-            <Button x:Name="btnList" Content="Liste" FontWeight="Bold" Height="42" Margin="0,5,0,5"/>
-            <Button x:Name="btnListFilter" Content="ListeFilter" FontWeight="Bold" Height="42" Margin="0,5,0,5"/>
-            <Button x:Name="btnUpload" Content="Upload" FontWeight="Bold" Height="42" Margin="0,5,0,5"/>
+            <Button Content="Upload" FontWeight="Bold" Height="42" Margin="0,5,0,5"
+                    Command="{Binding GotoUploadCommand}"
+                    />
+            <Button Content="*DEBUG*" FontWeight="Bold" Height="42" Margin="0,5,0,5"
+                    Command="{Binding UploadCommand}"
+                    />
+
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
@@ -24,6 +30,7 @@
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
                     <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit" 
+                            Command="{Binding ExitCommand}"
                             ToolTipService.InitialShowDelay="10" 
                             >
                         <Image Source="/Resources/Images/Icon_Exit.jpg" Height="30" RenderOptions.BitmapScalingMode="HighQuality"/>
