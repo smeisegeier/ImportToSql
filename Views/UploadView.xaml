@@ -1,0 +1,45 @@
+﻿<Window x:Class="Rki.ImportToSql.Views.UploadView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rki.ImportToSql.Views"
+        mc:Ignorable="d"
+        Title="UploadView" Height="500" Width="400">
+    <Grid>
+
+        <StackPanel>
+            <StackPanel>
+                <Border Height="60">
+                    <Label Content="Upload"/>
+                </Border>
+            </StackPanel>
+
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Image Source="/Resources/Images/Drag_csv.png" 
+                       AllowDrop="True" Drop="Grid_Drop" Stretch="None"/>
+            </DockPanel>
+
+            <StackPanel Margin="10">
+                <DockPanel HorizontalAlignment="Left">
+                    <Label x:Name="lcsvPath" Content="Csv-Pfad"/>
+                    <Grid Width="20"></Grid>
+                    <Button x:Name="btn_debug" Content="DEBUG" Width="200"/>
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Margin="10">
+                <TextBox x:Name="tbCsvPath" TextWrapping="Wrap" Text="" IsEnabled="False"/>
+            </StackPanel>
+
+        </StackPanel>
+
+        <DockPanel VerticalAlignment="Bottom" Margin="10,10,10,10">
+            <DockPanel HorizontalAlignment="Left">
+                <Button Name="btnUpload" 
+                        Content="Upload" 
+                        FontFamily="Bold" Width="250"/>
+            </DockPanel>
+        </DockPanel>
+
+    </Grid>
+</Window>

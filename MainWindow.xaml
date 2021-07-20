@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rki.ImportToSql"
         mc:Ignorable="d"
-        Title="Import this" Height="450" Width="800">
+        Title="Import this" Height="400" Width="400">
     <Grid>
+
+        <StackPanel MinWidth="200" Margin="10,0,10,0" >
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Label x:Name="Header" Content="Import" FontSize="24" FontWeight="Bold" Margin="0,10,0,10"/>
+            </StackPanel>
+            <Button x:Name="btnList" Content="Liste" FontWeight="Bold" Height="42" Margin="0,5,0,5"/>
+            <Button x:Name="btnListFilter" Content="ListeFilter" FontWeight="Bold" Height="42" Margin="0,5,0,5"/>
+            <Button x:Name="btnUpload" Content="Upload" FontWeight="Bold" Height="42" Margin="0,5,0,5"/>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <DockPanel>
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="200" Margin="10,0,0,10">
+                    <Label x:Name="lVersion" Content="Version"/>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
+                    <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit" 
+                            ToolTipService.InitialShowDelay="10" 
+                            >
+                        <Image Source="/Resources/Images/Icon_Exit.jpg" Height="30" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
 
     </Grid>
 </Window>

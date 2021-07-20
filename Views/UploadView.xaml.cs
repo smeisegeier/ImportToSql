@@ -10,22 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Rki.ImportToSql
+namespace Rki.ImportToSql.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UploadView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class UploadView : Window
     {
-        public MainWindow()
+        public UploadView()
         {
             InitializeComponent();
         }
     }
-
-    // TODO: https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp
-
 }
