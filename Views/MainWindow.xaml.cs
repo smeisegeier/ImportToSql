@@ -35,8 +35,7 @@ namespace Rki.ImportToSql.Views
                 foreach (string item in (string[])e.Data.GetData(DataFormats.FileDrop))
                 {
                     if (item.EndsWith(".csv")) csvPath = item;
-                    //Binding?...wie?
-                    tbCsvPath.Text = item;
+                    tbCsvPath.Text = csvPath;
                 }
             }
         }
