@@ -10,38 +10,5 @@
         Title="UploadView" Height="500" Width="400">
     <Grid>
 
-        <StackPanel>
-            <StackPanel>
-                <Border Height="60">
-                    <Label Content="Upload"/>
-                </Border>
-            </StackPanel>
-
-            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Image Source="/Resources/Images/Drag_csv.png" 
-                       AllowDrop="True" Stretch="None"/>
-            </DockPanel>
-
-            <StackPanel Margin="10">
-                <DockPanel HorizontalAlignment="Left">
-                    <Label x:Name="lcsvPath" Content="Csv-Pfad"/>
-                    <Grid Width="20"></Grid>
-                    <Button x:Name="btn_debug" Content="DEBUG" Width="200"/>
-                </DockPanel>
-            </StackPanel>
-            <StackPanel Margin="10">
-                <TextBox x:Name="tbCsvPath" TextWrapping="Wrap" Text="" IsEnabled="False"/>
-            </StackPanel>
-
-        </StackPanel>
-
-        <DockPanel VerticalAlignment="Bottom" Margin="10,10,10,10">
-            <DockPanel HorizontalAlignment="Left">
-                <Button Command="{Binding UploadCommand}" 
-                        Content="Upload" 
-                        FontFamily="Bold" Width="250"/>
-            </DockPanel>
-        </DockPanel>
-
     </Grid>
 </Window>

@@ -17,6 +17,7 @@ namespace Rki.ImportToSql.ViewModels
 
         public ICommand UploadCommand { get; private set; }
 
+        // CRIT window is messed up
         public MainWindowViewModel()
         {
             ExitCommand = new RelayCommand(o =>
@@ -35,6 +36,7 @@ namespace Rki.ImportToSql.ViewModels
             UploadCommand = new RelayCommand(o => CsvToJson());
         }
 
+        // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp
         // https://www.codeproject.com/Articles/1145337/Cinchoo-ETL-CSV-Reader
         public void CsvToJson()
         {
