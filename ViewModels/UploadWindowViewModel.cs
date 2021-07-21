@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Rki.ImportToSql.ViewModels
 {
-    public class UploadWindowViewModel
+    public class UploadWindowViewModel  
     {
 
 
