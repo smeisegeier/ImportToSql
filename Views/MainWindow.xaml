@@ -21,7 +21,7 @@
             </StackPanel>
             <StackPanel>
                 <Image Source="/Resources/Images/Drag_csv.png" 
-                       AllowDrop="True" Stretch="None"/>
+                       AllowDrop="True" Drop="Grid_Drop" Stretch="None"/>
             </StackPanel>
 
             <StackPanel Margin="10">

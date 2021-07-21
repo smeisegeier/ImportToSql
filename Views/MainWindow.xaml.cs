@@ -20,10 +20,27 @@ namespace Rki.ImportToSql.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private string csvPath;
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                foreach (string item in (string[])e.Data.GetData(DataFormats.FileDrop))
+                {
+                    if (item.EndsWith(".csv")) csvPath = item;
+                    //Binding?...wie?
+                    tbCsvPath.Text = item;
+                }
+            }
+        }
+
     }
 
 
