@@ -8,7 +8,6 @@ namespace Rki.ImportToSql.ViewModels
     public class UploadWindowViewModel  
     {
 
-
         public UploadWindowViewModel()
         {
             

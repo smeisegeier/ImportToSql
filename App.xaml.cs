@@ -12,7 +12,7 @@ namespace Rki.ImportToSql
         public void ApplicationStartup(object sender, StartupEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
-            mainWindow.DataContext = new MainWindowViewModel();
+            mainWindow.DataContext = new MainWindowViewModel(mainWindow);
             mainWindow.Show();
         }
     }
