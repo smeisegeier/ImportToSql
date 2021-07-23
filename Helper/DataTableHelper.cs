@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Rki.ImportToSql.Helper
 {
@@ -11,31 +12,73 @@ namespace Rki.ImportToSql.Helper
     {
         private DataTable dataTable;
 
+        private List<Column> columns = new List<Column>();
         
 
         public DataTableHelper(DataTable dataTable)
         {
             this.dataTable = dataTable;
+
+            for(int i = 0; i < dataTable.Columns.Count; i++)
+            {
+                columns.Add(new Column(this.dataTable.Columns[i]));
+            }
+        }
+
+        public Column getColumnByName(String name)
+        {
+            foreach(Column item in columns)
+            {
+                if (item.getColumnHeader() == name) return item;
+            }
+
+            return null;
+
+        }
+
+
+        public bool createSqlTable()
+        {
+
+            return false;
+        }
+
+
+        public static string getDataTypeByContentType(ContentType type)
+        {
+            switch (type)
+            {
+                case ContentType.STRING:
+                    return "nvarchar(max)";
+                case ContentType.INT:
+                    return "int";
+                case ContentType.DATETIME:
+                    return "datetime2(0)";
+                default:
+                    throw new Exception(type.ToString() + " wurde nicht behandelt") ;
+            }
         }
 
     }
 
-    class Coulmn
+    class Column
     {
         private String header;
         private ContentType type;
-        private List<ColumnContent> columnContents;
+        private List<ColumnContent> columnContents = new List<ColumnContent>();
 
-        public Coulmn(DataColumn dataColumn)
+        public Column(DataColumn dataColumn, ContentType type = ContentType.STRING)
         {
             if (dataColumn.Table.Rows.Count > 1)
             {
                 header = dataColumn.ColumnName;
-                type = ContentType.STRING;
+                this.type = type;
 
                 for(int i = 1; i < dataColumn.Table.Rows.Count; i++)
                 {
-                    columnContents.Add(new ColumnContent(dataColumn.Table.Rows[i].ToString(), ContentType.STRING));
+                    //columnContents.Add(new ColumnContent(dataColumn.Table.Rows[i].ToString(), this.type));
+                    columnContents.Add(new ColumnContent(dataColumn.Table.Rows[i][dataColumn.ColumnName].ToString(), this.type));
+
                 }
 
             }
@@ -65,15 +108,21 @@ namespace Rki.ImportToSql.Helper
         private ContentType type;
         private String content;
 
-
-        public ColumnContent(String content, ContentType type)
+        public ColumnContent(String content)
         {
             this.content = content;
-            this.type = type;
+            this.type = ContentType.STRING;
+        }
+
+        public ColumnContent(String content, ContentType type) : this(content)
+        {
+            if (!tryParseIntoContentType(type)) throw new Exception(content + " konnte nicht in zum Contenttyp " + type.ToString() + " umgewandelt werden!");
         }
 
         public bool tryParseIntoContentType(ContentType type)
         {
+            if (this.type == type) return true;
+
             switch (type)
             {
                 case ContentType.STRING:
@@ -99,6 +148,8 @@ namespace Rki.ImportToSql.Helper
                 default:
                     return false;
             }
+
+            this.type = type;
 
             return true;
         }

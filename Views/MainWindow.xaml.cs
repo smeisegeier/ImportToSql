@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Rki.ImportToSql.Helper;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,8 @@ namespace Rki.ImportToSql.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        String server = "(localdb)\\MSSQLLocalDB";
+        String database = "StagingArea";
 
         private string csvPath;
 
@@ -40,6 +44,20 @@ namespace Rki.ImportToSql.Views
             }
         }
 
+        private void Test_DataTableHelper()
+        {
+            DataTableHelper dataTableHelper = new DataTableHelper(CsvHelper.readCsv(csvPath, ';'));
+            if (!dataTableHelper.getColumnByName("Inhalt").parseIntoContentType(ContentType.INT)) MessageBox.Show("Inhalt konnte nicht umgewandelt werden!");
+            if (!dataTableHelper.getColumnByName("Datum").parseIntoContentType(ContentType.DATETIME)) MessageBox.Show("Datum konnte nicht umgewandelt werden!");
+
+            List<String> tables =  SqlHelper.GetTablesList(server, database);
+            DataTable tab = SqlHelper.getTableInformation(server, database, tables[0].ToString());
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Test_DataTableHelper();
+        }
     }
 
 

@@ -35,9 +35,11 @@
                 <TextBox x:Name="tbCsvPath" TextWrapping="Wrap" Text="" IsEnabled="False"/>
             </StackPanel>
             <StackPanel>
-                <Button Command="{Binding UploadCommand}" 
+                <Button 
+                        
+                    
                         Content="Upload" 
-                        FontFamily="Bold" Width="250"/>
+                        FontFamily="Bold" Width="250" Click="Button_Click"/>
             </StackPanel>
         </StackPanel>
         
