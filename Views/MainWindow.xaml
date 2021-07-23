@@ -1,52 +1,60 @@
 ﻿<Window x:Class="Rki.ImportToSql.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Rki.ImportToSql.Views"
-        mc:Ignorable="d"
         xmlns:vm="clr-namespace:Rki.ImportToSql.ViewModels"
+        xmlns:behaviours="http://schemas.microsoft.com/xaml/behaviors" 
+        mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="Import this" Height="600" Width="400">
     <Grid>
 
-        <StackPanel Margin="10,0,10,0" >
+        <StackPanel Margin="10,0,10,0">
             <StackPanel HorizontalAlignment="Center">
-                <Label x:Name="Header" Content="Import" FontSize="24" FontWeight="Bold" Margin="0,10,0,10"/>
+                <Label x:Name="Header" Content="Import" FontSize="24" FontWeight="Bold" Margin="0,10,0,10" />
             </StackPanel>
             <StackPanel>
-                <Button Content="UPLOAD" 
+                <Button Content="UPLOAD"
                         FontWeight="Bold" Height="42" Margin="0,5,0,5"
-                        Command="{Binding UploadCommand}"
-                    />
+                        Command="{Binding UploadCommand}" />
             </StackPanel>
             <StackPanel>
-                <Image Source="/Resources/Images/Drag_csv.png" 
-                       AllowDrop="True" Drop="Grid_Drop" Stretch="None"/>
+                <Image Source="/Resources/Images/Drag_csv.png"
+                       AllowDrop="True"
+                       
+                       Stretch="None">
+                    <behaviours:Interaction.Triggers>
+                        <behaviours:EventTrigger EventName="Drop">
+                            <behaviours:InvokeCommandAction 
+                                Command="{Binding DropCommand}"
+                                PassEventArgsToCommand="True" 
+                                />
+                        </behaviours:EventTrigger>
+                    </behaviours:Interaction.Triggers>
+                </Image>
             </StackPanel>
 
             <StackPanel Margin="10">
-                <TextBox x:Name="tbCsvPath" TextWrapping="Wrap" Text="" IsEnabled="False"/>
+                <TextBox TextWrapping="Wrap" 
+                         Text="{Binding DropFilePathFull, Mode=OneWay}" 
+                         IsEnabled="False" />
             </StackPanel>
-
         </StackPanel>
-        
-        
+
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <DockPanel>
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="200" Margin="10,0,0,10">
-                    <Label x:Name="lVersion" Content="Version"/>
+                    <Label x:Name="lVersion" Content="Version" />
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
-                    <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit" 
+                    <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit"
                             Command="{Binding ExitCommand}"
-                            ToolTipService.InitialShowDelay="10" 
-                            >
-                        <Image Source="/Resources/Images/Icon_Exit.jpg" Height="30" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            ToolTipService.InitialShowDelay="10">
+                        <Image Source="/Resources/Images/Icon_Exit.jpg" Height="30" RenderOptions.BitmapScalingMode="HighQuality" />
                     </Button>
                 </StackPanel>
             </DockPanel>
         </StackPanel>
-
     </Grid>
 </Window>

@@ -21,27 +21,9 @@ namespace Rki.ImportToSql.Views
     public partial class MainWindow : Window
     {
 
-        public string DropFilePathFull { get; set; } //= @"C:\Users\MeisegeierS\Desktop\Test.csv";
-
         public MainWindow()
         {
             InitializeComponent();
         }
-
-        // HACK this should be in ViewModel
-        private void Grid_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                foreach (string item in (string[])e.Data.GetData(DataFormats.FileDrop))
-                {
-                    if (item.EndsWith(".csv") || item.EndsWith(".txt"))
-                        tbCsvPath.Text = DropFilePathFull = item;
-                }
-            }
-        }
     }
-
-
-
 }

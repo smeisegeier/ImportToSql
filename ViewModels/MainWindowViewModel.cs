@@ -9,37 +9,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Rki.ImportToSql.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : BaseViewModel
     {
-        private readonly MainWindow _mainWindow;
 
         public ICommand ExitCommand { get; private set; }
         public ICommand UploadCommand { get; private set; }
-        public ICommand DropCommand { get; private set; }
+        public RelayCommand<DragEventArgs> DropCommand { get; private set; }
 
+        private string _dropFilePathFull = "xde";
+        public string DropFilePathFull
+        {
+            get => _dropFilePathFull;
+            set
+            {
+                _dropFilePathFull = value;
+                OnPropertyChanged();
+            }
+        }
         /// <summary>
         /// As long as the RelayCommand is not fully implemented, the window object must be passed
         /// </summary>
         /// <param name="mainWindow">parent window</param>
-        public MainWindowViewModel(MainWindow mainWindow)
+        public MainWindowViewModel()
         {
-            _mainWindow = mainWindow;
-            ExitCommand = new RelayCommand(o =>
+            ExitCommand = new RelayCommand<object>(o =>
             {
                 App.Current.Shutdown();
             });
 
-            UploadCommand = new RelayCommand(
-                o => onUpload(csvToJsonFromFullPath(_mainWindow.DropFilePathFull)),
-                o => (_mainWindow.DropFilePathFull != null)
-            );
+
+            UploadCommand = new RelayCommand<object>(
+                 o => onUpload(csvToJsonFromFullPath(DropFilePathFull)),
+                 o => (DropFilePathFull?.Length > 5)
+                );
+            DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
         }
 
-        public MainWindowViewModel() { }
+        // https://stackoverflow.com/questions/6205472/mvvm-passing-eventargs-as-command-parameter
+        private void grid_Drop(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                foreach (string path in (string[])e.Data.GetData(DataFormats.FileDrop))
+                {
+                    if (path.EndsWith(".csv") || path.EndsWith(".txt"))
+                        DropFilePathFull = path;
+                }
+            }
+        }
 
 
         private void onUpload(string json)

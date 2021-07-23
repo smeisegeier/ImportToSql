@@ -15,6 +15,7 @@ namespace Rki.ImportToSql.Models
         public string City { get; set; }
         public string Country { get; set; }
 
+        // CRIT id prop must go away
         public Test1(string id, string city, string country)
         {
             Id = id;

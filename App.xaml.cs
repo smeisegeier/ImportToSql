@@ -29,7 +29,7 @@ namespace Rki.ImportToSql
             Globals.RepoTest1.Tests1AddItem(Test1.GetDefaultValues());
 
             MainWindow mainWindow = new MainWindow();
-            mainWindow.DataContext = new MainWindowViewModel(mainWindow);
+            mainWindow.DataContext = new MainWindowViewModel();
             mainWindow.Show();
         }
     }
