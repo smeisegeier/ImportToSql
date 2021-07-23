@@ -8,6 +8,8 @@ namespace Rki.ImportToSql.Models
 {
     public class Test2 : Base
     {
+        public override string Message => "hi im test2";
+
         public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }

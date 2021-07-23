@@ -19,6 +19,7 @@ namespace Rki.ImportToSql.ViewModels
 
         public ICommand ExitCommand { get; private set; }
         public ICommand UploadCommand { get; private set; }
+        public ICommand DropCommand { get; private set; }
 
         /// <summary>
         /// As long as the RelayCommand is not fully implemented, the window object must be passed
@@ -53,7 +54,9 @@ namespace Rki.ImportToSql.ViewModels
 
             if (json.ToJsonTryParse(out List<Test1> list1))
             {
-                processUpload(list1);
+                //processUpload(list1);
+                Globals.RepoTest1.Tests1AddItem(list1);
+                StaticHelper.MyMessageBoxNotificationInfo(Base.PrintList(Globals.RepoTest1.Tests1GetItems()));
             }
 
 
@@ -63,11 +66,20 @@ namespace Rki.ImportToSql.ViewModels
             }
         }
 
-        private void processUpload<T>(List<T> list)
+        private void processUpload<T>(List<T> list) where T : Base
         {
-            StaticHelper.MyMessageBoxNotificationInfo(string.Join("|", list.Select(x => x.ToString())));
-        }
+            // no entries?
+            if (!list.Any())
+                return;
 
+            /* Fetch repo */
+
+            /* Add List to repo */
+
+            /* Feedback to user */
+            StaticHelper.MyMessageBoxNotificationInfo(list[0].Message);
+            //StaticHelper.MyMessageBoxNotificationInfo());
+        }
 
         // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp
         // https://www.codeproject.com/Articles/1145337/Cinchoo-ETL-CSV-Reader

@@ -21,7 +21,7 @@ namespace Rki.ImportToSql.Views
     public partial class MainWindow : Window
     {
 
-        public string DropFilePathFull { get; set; } = @"C:\Users\MeisegeierS\Desktop\Test.csv";
+        public string DropFilePathFull { get; set; } //= @"C:\Users\MeisegeierS\Desktop\Test.csv";
 
         public MainWindow()
         {
