@@ -43,28 +43,27 @@ namespace Rki.ImportToSql.ViewModels
 
         private void onUpload(string json)
         {
+            // TODO Schema Validation
+            /*             
             var schema = Test.Schema;
             var schemaList = TestList.Schema;
-
             var errors = Test.Schema.Validate(json);
             var errors2 = Base.Schema.Validate(json);
+            */
 
             // -> true
-            if (json.TryParseJson(out List<Test> result))
+            if (json.ToJsonTryParse(out List<Test> result))
             {
                 // Do something with result…
             }
 
             // -> false
-            if (json.TryParseJson(out List<Base> resulty))
+            if (json.ToJsonTryParse(out List<Base> resulty))
             {
                 // Do something with result…
             }
 
-            List<Test> list = JsonConvert.DeserializeObject<List<Test>>(json);
-            List<Base> xd = JsonConvert.DeserializeObject<List<Base>>(json);
-
-            StaticHelper.MyMessageBoxNotificationInfo(string.Join("|", list.Select(x => x.ToString())));
+            StaticHelper.MyMessageBoxNotificationInfo(string.Join("|", result.Select(x => x.ToString())));
 
         }
 
