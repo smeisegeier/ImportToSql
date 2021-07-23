@@ -51,39 +51,22 @@ namespace Rki.ImportToSql.ViewModels
             var errors2 = Base.Schema.Validate(json);
             */
 
-            // -> true
-            if (json.ToJsonTryParse(out List<Test> result))
+            if (json.ToJsonTryParse(out List<Test1> list1))
             {
-                // Do something with result…
+                processUpload(list1);
             }
 
-            // -> false
-            if (json.ToJsonTryParse(out List<Base> resulty))
+
+            if (json.ToJsonTryParse(out List<Test2> list2))
             {
-                // Do something with result…
+                processUpload(list2);
             }
-
-            StaticHelper.MyMessageBoxNotificationInfo(string.Join("|", result.Select(x => x.ToString())));
-
         }
 
-        // https://stackoverflow.com/questions/29337930/can-i-determine-whether-the-string-can-deserialize-by-newtonsoft
-        private static bool tryParseJson(string json, out JObject jObject)
+        private void processUpload<T>(List<T> list)
         {
-            try
-            {
-                jObject = JObject.Parse(json);
-                return true;
-            }
-            catch
-            {
-                jObject = null;
-                return false;
-            }
+            StaticHelper.MyMessageBoxNotificationInfo(string.Join("|", list.Select(x => x.ToString())));
         }
-
-
-
 
 
         // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp
