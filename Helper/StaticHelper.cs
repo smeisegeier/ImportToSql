@@ -12,5 +12,10 @@ namespace Rki.ImportToSql.Helper
         // TODO source out to package?
         public static void MyMessageBoxNotificationInfo(string _message) => 
             MessageBox.Show(_message, "Info", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+        public static bool MyMessageBoxNotificationYesNo(string _message)
+        {
+            MessageBoxResult _res = MessageBox.Show(_message, "Warnung", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes);
+            return (_res == MessageBoxResult.Yes);
+        }
     }
 }

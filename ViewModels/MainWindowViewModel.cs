@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Rki.ImportToSql.Helper;
 using Rki.ImportToSql.Models;
+using Rki.ImportToSql.Services;
 using Rki.ImportToSql.Views;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ namespace Rki.ImportToSql.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-
         public ICommand ExitCommand { get; private set; }
         public ICommand UploadCommand { get; private set; }
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
@@ -76,31 +76,33 @@ namespace Rki.ImportToSql.ViewModels
 
             if (json.ToJsonTryParse(out List<Test1> list1))
             {
-                //processUpload(list1);
-                Test1.RepoTest1.Tests1AddItem(list1);
-                StaticHelper.MyMessageBoxNotificationInfo(Base.PrintList(Test1.RepoTest1.Tests1GetItems()));
+                processUpload(list1, Test1.Repo);
             }
 
 
             if (json.ToJsonTryParse(out List<Test2> list2))
             {
-                processUpload(list2);
+                processUpload(list2, Test2.Repo);
             }
         }
 
-        private void processUpload<T>(List<T> list) where T : Base
+        private void processUpload<T>(List<T> list, BaseDbContext repo) where T : BaseModel
         {
             // no entries?
             if (!list.Any())
                 return;
 
-            /* Fetch repo */
-
-            /* Add List to repo */
-
+            // TODO html or rich text in messageboxes
+            // TODO adopt andres box
             /* Feedback to user */
-            StaticHelper.MyMessageBoxNotificationInfo(list[0].Message);
-            //StaticHelper.MyMessageBoxNotificationInfo());
+            if (StaticHelper.MyMessageBoxNotificationYesNo(string.Format("Type found: {0} \nItems found: {1} ",
+                typeof(T).Name,
+                repo.ItemsGetCount<T>())))
+            {
+                /* Add List to repo */
+                repo.ItemAddList(list);
+                StaticHelper.MyMessageBoxNotificationInfo(BaseModel.PrintList(repo.ItemsGetAll<T>()));
+            }
         }
 
         // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp

@@ -3,15 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Models
 {
-    public abstract class Base
+    public abstract class BaseModel
     {
-        public abstract string Message { get; }
+        [JsonIgnore]
+        public int Id { get; set; }
 
-        public static string PrintList<T>(List<T> list) where T : Base =>
+        public static string PrintList<T>(List<T> list) where T : BaseModel =>
             string.Join(Environment.NewLine, list.Select(x => x.ToString()));
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Services
 {
-    public class RepoTest1 : DbContext
+    public class RepoTest1 : BaseDbContext
     {
         public DbSet<Test1> Tests1 { get; set; }
 
@@ -17,14 +17,12 @@ namespace Rki.ImportToSql.Services
             optionsBuilder.UseInMemoryDatabase(@"Test1");
         }
 
-        public List<Test1> Tests1GetItems() => Tests1.ToList();
+        //public List<Test1> Tests1GetItems() => Tests1.ToList();
 
-        public void Tests1AddItem(List<Test1> list)
-        {
-            Tests1.AddRange(list);
-            SaveChanges();
-        }
-
+        //public void Tests1AddItem(List<Test1> list)
+        //{
+        //    Tests1.AddRange(list);
+        //    SaveChanges();
+        //}
     }
-
 }

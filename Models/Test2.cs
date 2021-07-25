@@ -7,18 +7,15 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Models
 {
-    public class Test2 : Base
+    public class Test2 : BaseModel
     {
-        public override string Message => "hi im test2";
 
-        public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
         public int Rating { get; set; }
 
-        public Test2(int id, string text, string description, int rating)
+        public Test2(string text, string description, int rating)
         {
-            Id = id;
             Text = text;
             Description = description;
             Rating = rating;
@@ -28,11 +25,11 @@ namespace Rki.ImportToSql.Models
 
         public static List<Test2> GetDefaultValues() => new List<Test2>()
         {
-            new Test2(1000,"olol","very lol",5),
-            new Test2(2000,"xxde","..",2),
-            new Test2(3000,"hi","hi there",8)
+            new Test2("olol","very lol",5),
+            new Test2("xxde","..",2),
+            new Test2("hi","hi there",8)
         };
 
-        public static RepoTest2 RepoTest2 { get; set; } = new();
+        public static RepoTest2 Repo { get; set; } = new();
     }
 }

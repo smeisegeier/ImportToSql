@@ -8,18 +8,13 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Models
 {
-    public class Test1 : Base
+    public class Test1 : BaseModel
     {
-        public override string Message => "test1 here";
-
-        public string Id { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
 
-        // CRIT id prop must go away
-        public Test1(string id, string city, string country)
+        public Test1(string city, string country)
         {
-            Id = id;
             City = city;
             Country = country;
         }
@@ -28,7 +23,8 @@ namespace Rki.ImportToSql.Models
 
         public static List<Test1> GetDefaultValues() => new List<Test1>()
         {
-            new Test1("9","ny","amercas"),
+            new Test1("ny","amercas"),
+            new Test1("berlin","germ")
         };
 
 
@@ -41,7 +37,7 @@ namespace Rki.ImportToSql.Models
             'Country': {'type': 'string'}
             }";
 
-        public static RepoTest1 RepoTest1 { get; set; } = new();
+        public static RepoTest1 Repo { get; set; } = new();
 
     }
 }
