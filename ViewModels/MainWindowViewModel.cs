@@ -77,8 +77,8 @@ namespace Rki.ImportToSql.ViewModels
             if (json.ToJsonTryParse(out List<Test1> list1))
             {
                 //processUpload(list1);
-                Globals.RepoTest1.Tests1AddItem(list1);
-                StaticHelper.MyMessageBoxNotificationInfo(Base.PrintList(Globals.RepoTest1.Tests1GetItems()));
+                Test1.RepoTest1.Tests1AddItem(list1);
+                StaticHelper.MyMessageBoxNotificationInfo(Base.PrintList(Test1.RepoTest1.Tests1GetItems()));
             }
 
 

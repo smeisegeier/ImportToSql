@@ -1,4 +1,5 @@
 ﻿using NJsonSchema;
+using Rki.ImportToSql.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,5 +40,8 @@ namespace Rki.ImportToSql.Models
             'City': {'type': 'string'},
             'Country': {'type': 'string'}
             }";
+
+        public static RepoTest1 RepoTest1 { get; set; } = new();
+
     }
 }

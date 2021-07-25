@@ -12,7 +12,8 @@ namespace Rki.ImportToSql
     /// </summary>
     public static class Globals
     {
-        public static RepoTest1 RepoTest1 { get; set; } = new();
-        public static RepoTest2 RepoTest2 { get; set; } = new();
+        // DOC placing static Repos into Classes
+//       public static RepoTest1 RepoTest1 { get; set; } = new();
+        //public static RepoTest2 RepoTest2 { get; set; } = new();
     }
 }

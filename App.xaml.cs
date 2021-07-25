@@ -19,14 +19,14 @@ namespace Rki.ImportToSql
             try
             {
                 // correct approach: always try to ensure at startup. Connectivity should be checked later again for button - it could be on/off
-                Globals.RepoTest1.Database.EnsureCreated();
+                Test1.RepoTest1.Database.EnsureCreated();
             }
             catch (Microsoft.Data.SqlClient.SqlException ex)
             {
                 Helper.StaticHelper.MyMessageBoxNotificationInfo(string.Format("Server not present.{0}{1}", Environment.NewLine, ex.Message));
             }
 
-            Globals.RepoTest1.Tests1AddItem(Test1.GetDefaultValues());
+            Test1.RepoTest1.Tests1AddItem(Test1.GetDefaultValues());
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.DataContext = new MainWindowViewModel();

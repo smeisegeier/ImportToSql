@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rki.ImportToSql.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,5 +32,7 @@ namespace Rki.ImportToSql.Models
             new Test2(2000,"xxde","..",2),
             new Test2(3000,"hi","hi there",8)
         };
+
+        public static RepoTest2 RepoTest2 { get; set; } = new();
     }
 }
