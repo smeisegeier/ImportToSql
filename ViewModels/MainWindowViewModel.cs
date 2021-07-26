@@ -7,11 +7,14 @@ using Rki.ImportToSql.Services;
 using Rki.ImportToSql.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Rki.ImportToSql.ViewModels
 {
@@ -21,7 +24,13 @@ namespace Rki.ImportToSql.ViewModels
         public ICommand UploadCommand { get; private set; }
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
 
+        public bool UploadEnabled => DropFilePathFull?.Length > 5;
+        public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new ();
+
+
+        // TODO why this sometimes work w/o property?
         private string _dropFilePathFull = "xde";
+
         public string DropFilePathFull
         {
             get => _dropFilePathFull;
@@ -29,12 +38,10 @@ namespace Rki.ImportToSql.ViewModels
             {
                 _dropFilePathFull = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(UploadEnabled));
             }
         }
-        /// <summary>
-        /// As long as the RelayCommand is not fully implemented, the window object must be passed
-        /// </summary>
-        /// <param name="mainWindow">parent window</param>
+
         public MainWindowViewModel()
         {
             ExitCommand = new RelayCommand<object>(o =>
@@ -44,10 +51,13 @@ namespace Rki.ImportToSql.ViewModels
 
 
             UploadCommand = new RelayCommand<object>(
-                 o => onUpload(csvToJsonFromFullPath(DropFilePathFull)),
-                 o => (DropFilePathFull?.Length > 5)
+                 o => onUpload(csvToJsonFromFullPath(DropFilePathFull))
                 );
+            
             DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
+
+            addListBoxItem("Started", Brushes.IndianRed);
+            addListBoxItem("Started2", Brushes.BlueViolet);
         }
 
         // https://stackoverflow.com/questions/6205472/mvvm-passing-eventargs-as-command-parameter
@@ -75,15 +85,11 @@ namespace Rki.ImportToSql.ViewModels
             */
 
             if (json.ToJsonTryParse(out List<Test1> list1))
-            {
                 processUpload(list1, Test1.Repo);
-            }
-
 
             if (json.ToJsonTryParse(out List<Test2> list2))
-            {
                 processUpload(list2, Test2.Repo);
-            }
+
         }
 
         private void processUpload<T>(List<T> list, BaseDbContext repo) where T : BaseModel
@@ -92,9 +98,11 @@ namespace Rki.ImportToSql.ViewModels
             if (!list.Any())
                 return;
 
+
             // TODO html or rich text in messageboxes
-            // TODO adopt andres box
             /* Feedback to user */
+            addListBoxItem("lol", Brushes.AliceBlue);
+
             if (StaticHelper.MyMessageBoxNotificationYesNo(string.Format("Type found: {0} \nItems found: {1} ",
                 typeof(T).Name,
                 repo.ItemsGetCount<T>())))
@@ -103,6 +111,11 @@ namespace Rki.ImportToSql.ViewModels
                 repo.ItemAddList(list);
                 StaticHelper.MyMessageBoxNotificationInfo(BaseModel.PrintList(repo.ItemsGetAll<T>()));
             }
+        }
+
+        private void addListBoxItem(string text, Brush foreground = null)
+        {
+            ListBoxItems.Add(new ListBoxItem(text, foreground?? Brushes.Black));
         }
 
         // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp

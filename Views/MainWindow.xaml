@@ -7,7 +7,7 @@
         xmlns:behaviours="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
-        Title="Import this" Height="600" Width="400">
+        Title="Import this" Height="700" Width="400">
     <Grid>
 
         <StackPanel Margin="10,0,10,0">
@@ -17,7 +17,9 @@
             <StackPanel>
                 <Button Content="UPLOAD"
                         FontWeight="Bold" Height="42" Margin="0,5,0,5"
-                        Command="{Binding UploadCommand}" />
+                        Command="{Binding UploadCommand}" 
+                        IsEnabled="{Binding UploadEnabled}"
+                        />
             </StackPanel>
             <StackPanel>
                 <Image Source="/Resources/Images/Drag_csv.png"
@@ -40,6 +42,35 @@
                          Text="{Binding DropFilePathFull, Mode=OneWay}" 
                          IsEnabled="False" />
             </StackPanel>
+
+            <StackPanel >
+                <TextBlock Text="Ausgabekonsole" FontWeight="Bold"/>
+                <Border>
+                    <DockPanel Height="96" Margin="2">
+                        <DataGrid 
+                          ItemsSource="{Binding ListBoxItems}"
+                          AutoGenerateColumns="False"
+                          CanUserResizeColumns="True"
+                          AlternatingRowBackground="#FFE9E9E9"
+                          RowHeight="15"
+                          AlternationCount="2"
+                            >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Text" 
+                                                    Binding="{Binding Text}"
+                                                    IsReadOnly="True" 
+                                                    />
+                                <DataGridTextColumn Header="lol" 
+                                                    Binding="{Binding Foreground}"
+                                                    IsReadOnly="True" 
+                                                    />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+
+
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
