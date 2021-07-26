@@ -9,6 +9,9 @@ namespace Rki.ImportToSql.ViewModels
 {
     public class ListBoxItem
     {
+        private DateTime _timeStamp = DateTime.Now;
+        public string TimeStamp => new TimeSpan(_timeStamp.Hour, _timeStamp.Minute, _timeStamp.Second).ToString();
+
         public string Text { get; set; }
         public Brush Foreground { get; set; }
 

@@ -26,7 +26,7 @@ namespace Rki.ImportToSql
                 Helper.StaticHelper.MyMessageBoxNotificationInfo(string.Format("Server not present.{0}{1}", Environment.NewLine, ex.Message));
             }
 
-            Test1.Repo.ItemAddList(Test1.GetDefaultValues());
+            //Test1.Repo.ItemAddList(Test1.GetDefaultValues());
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.DataContext = new MainWindowViewModel();

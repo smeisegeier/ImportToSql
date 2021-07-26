@@ -13,6 +13,10 @@ namespace Rki.ImportToSql.Models
         [JsonIgnore]
         public int Id { get; set; }
 
+        // HACK create better hash
+        [JsonIgnore]
+        public abstract string Hash { get; }
+
         public static string PrintList<T>(List<T> list) where T : BaseModel =>
             string.Join(Environment.NewLine, list.Select(x => x.ToString()));
     }

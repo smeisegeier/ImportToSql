@@ -16,13 +16,5 @@ namespace Rki.ImportToSql.Services
         {
             optionsBuilder.UseInMemoryDatabase(@"Test1");
         }
-
-        //public List<Test1> Tests1GetItems() => Tests1.ToList();
-
-        //public void Tests1AddItem(List<Test1> list)
-        //{
-        //    Tests1.AddRange(list);
-        //    SaveChanges();
-        //}
     }
 }

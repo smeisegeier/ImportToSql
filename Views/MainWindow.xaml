@@ -7,7 +7,7 @@
         xmlns:behaviours="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
-        Title="Import this" Height="700" Width="400">
+        Title="Import this" Height="800" Width="600">
     <Grid>
 
         <StackPanel Margin="10,0,10,0">
@@ -24,7 +24,6 @@
             <StackPanel>
                 <Image Source="/Resources/Images/Drag_csv.png"
                        AllowDrop="True"
-                       
                        Stretch="None">
                     <behaviours:Interaction.Triggers>
                         <behaviours:EventTrigger EventName="Drop">
@@ -43,34 +42,38 @@
                          IsEnabled="False" />
             </StackPanel>
 
-            <StackPanel >
+            <StackPanel>
                 <TextBlock Text="Ausgabekonsole" FontWeight="Bold"/>
-                <Border>
-                    <DockPanel Height="96" Margin="2">
-                        <DataGrid 
-                          ItemsSource="{Binding ListBoxItems}"
+                <DockPanel LastChildFill="True" Height="200">
+                    <DataGrid ItemsSource="{Binding ListBoxItems}"
                           AutoGenerateColumns="False"
                           CanUserResizeColumns="True"
                           AlternatingRowBackground="#FFE9E9E9"
-                          RowHeight="15"
-                          AlternationCount="2"
+                          AlternationCount="2" 
                             >
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Text" 
-                                                    Binding="{Binding Text}"
-                                                    IsReadOnly="True" 
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Time"
+                                                    Binding="{Binding TimeStamp}"
                                                     />
-                                <DataGridTextColumn Header="lol" 
-                                                    Binding="{Binding Foreground}"
-                                                    IsReadOnly="True" 
-                                                    />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </DockPanel>
-                </Border>
+                            <DataGridTemplateColumn Header="Message" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Text}"
+                                                       Foreground="{Binding Foreground}"
+                                                       FontWeight="Bold"
+                                                       />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
             </StackPanel>
-
-
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">

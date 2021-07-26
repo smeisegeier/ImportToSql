@@ -25,11 +25,9 @@ namespace Rki.ImportToSql.ViewModels
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
 
         public bool UploadEnabled => DropFilePathFull?.Length > 5;
-        public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new ();
+        public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new();
 
 
-        // TODO why this sometimes work w/o property?
-        private string _dropFilePathFull = "xde";
 
         public string DropFilePathFull
         {
@@ -41,6 +39,7 @@ namespace Rki.ImportToSql.ViewModels
                 OnPropertyChanged(nameof(UploadEnabled));
             }
         }
+        private string _dropFilePathFull = "xde";
 
         public MainWindowViewModel()
         {
@@ -53,11 +52,10 @@ namespace Rki.ImportToSql.ViewModels
             UploadCommand = new RelayCommand<object>(
                  o => onUpload(csvToJsonFromFullPath(DropFilePathFull))
                 );
-            
+
             DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
 
-            addListBoxItem("Started", Brushes.IndianRed);
-            addListBoxItem("Started2", Brushes.BlueViolet);
+            addListBoxItem("App Started", Globals.COLOR_SUCCESS);
         }
 
         // https://stackoverflow.com/questions/6205472/mvvm-passing-eventargs-as-command-parameter
@@ -98,24 +96,32 @@ namespace Rki.ImportToSql.ViewModels
             if (!list.Any())
                 return;
 
-
-            // TODO html or rich text in messageboxes
             /* Feedback to user */
-            addListBoxItem("lol", Brushes.AliceBlue);
+            if (repo.ItemsExist(list))
+            {
+                addListBoxItem("Duplicate", Globals.COLOR_DANGER);
+                return;
+            }
 
-            if (StaticHelper.MyMessageBoxNotificationYesNo(string.Format("Type found: {0} \nItems found: {1} ",
+            if (!StaticHelper.MyMessageBoxNotificationYesNo(string.Format("Type found: {0} \nItems found: {1} ",
                 typeof(T).Name,
                 repo.ItemsGetCount<T>())))
-            {
-                /* Add List to repo */
-                repo.ItemAddList(list);
-                StaticHelper.MyMessageBoxNotificationInfo(BaseModel.PrintList(repo.ItemsGetAll<T>()));
-            }
+                    return;
+
+            /* Add List to repo */
+            int count = repo.ItemAddList(list);
+            if (count == 0)
+                addListBoxItem("No items were added", Globals.COLOR_DANGER);
+            else
+                addListBoxItem(string.Format("{0} items added to <{1}>", count, typeof(T).Name), Globals.COLOR_CHANGE);
+
+
+            StaticHelper.MyMessageBoxNotificationInfo(BaseModel.PrintList(repo.ItemsGetAll<T>()));
         }
 
         private void addListBoxItem(string text, Brush foreground = null)
         {
-            ListBoxItems.Add(new ListBoxItem(text, foreground?? Brushes.Black));
+            ListBoxItems.Add(new ListBoxItem(text, foreground ?? Brushes.Black));
         }
 
         // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp

@@ -13,6 +13,9 @@ namespace Rki.ImportToSql.Models
         public string City { get; set; }
         public string Country { get; set; }
 
+        public override string Hash => City + Country;
+
+
         public Test1(string city, string country)
         {
             City = city;

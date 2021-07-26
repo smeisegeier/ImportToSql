@@ -14,6 +14,8 @@ namespace Rki.ImportToSql.Models
         public string Description { get; set; }
         public int Rating { get; set; }
 
+        public override string Hash => Text + Description + Rating.ToString();
+
         public Test2(string text, string description, int rating)
         {
             Text = text;
