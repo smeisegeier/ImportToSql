@@ -8,9 +8,19 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Services
 {
-    public class BaseDbContext : DbContext
+    /// <summary>
+    /// Builds a generic repository for all classes below base. 
+    /// Steps to append new classes: 
+    /// 1) Register new class w/ properties in /models
+    /// 2) Assign a Repo to that class under /services
+    /// 3) In that repo, have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties. 
+    /// 4) This repo must be placed as a *static* property in the class for easy access, incl. initializer. 
+    /// </summary>
+    public abstract class BaseRepo : DbContext
     {
-        /* Generic Repo */
+
+        public abstract string TargetPathInfo { get; }
+
 
         /// <summary>
         /// Checks if the list first element hash value exists in table

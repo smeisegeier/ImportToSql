@@ -74,23 +74,25 @@ namespace Rki.ImportToSql.ViewModels
 
         private void onUpload(string json)
         {
-            // TODO Schema Validation
-            /*             
-            var schema = Test.Schema;
-            var schemaList = TestList.Schema;
-            var errors = Test.Schema.Validate(json);
-            var errors2 = Base.Schema.Validate(json);
-            */
 
             if (json.ToJsonTryParse(out List<Test1> list1))
+            {
                 processUpload(list1, Test1.Repo);
+                return;
+            }
 
             if (json.ToJsonTryParse(out List<Test2> list2))
+            {
                 processUpload(list2, Test2.Repo);
+                return;
+            }
+
+
+            StaticHelper.MyMessageBoxNotificationInfo("Unknown Type.");
 
         }
 
-        private void processUpload<T>(List<T> list, BaseDbContext repo) where T : BaseModel
+        private void processUpload<T>(List<T> list, BaseRepo repo) where T : BaseModel
         {
             // no entries?
             if (!list.Any())
@@ -99,24 +101,31 @@ namespace Rki.ImportToSql.ViewModels
             /* Feedback to user */
             if (repo.ItemsExist(list))
             {
-                addListBoxItem("Duplicate", Globals.COLOR_DANGER);
+                StaticHelper.MyMessageBoxNotificationInfo("Duplicate!");
+                //addListBoxItem("Duplicate", Globals.COLOR_DANGER);
                 return;
             }
 
-            if (!StaticHelper.MyMessageBoxNotificationYesNo(string.Format("Type found: {0} \nItems found: {1} ",
+            if (!StaticHelper.MyMessageBoxNotificationYesNo(string.Format("File is of type: {0}\nItems found in target: {1}\nTargetPath: {2}\n\nImport these? ",
                 typeof(T).Name,
-                repo.ItemsGetCount<T>())))
-                    return;
+                repo.ItemsGetCount<T>(),
+                repo.TargetPathInfo
+                )))
+            {
+                return;
+            }
+
 
             /* Add List to repo */
             int count = repo.ItemAddList(list);
             if (count == 0)
                 addListBoxItem("No items were added", Globals.COLOR_DANGER);
             else
-                addListBoxItem(string.Format("{0} items added to <{1}>", count, typeof(T).Name), Globals.COLOR_CHANGE);
+                addListBoxItem(string.Format("+{0} items of <{1}> to {2}", count, typeof(T).Name, repo.TargetPathInfo),
+                    Globals.COLOR_CHANGE);
 
 
-            StaticHelper.MyMessageBoxNotificationInfo(BaseModel.PrintList(repo.ItemsGetAll<T>()));
+            //StaticHelper.MyMessageBoxNotificationInfo(BaseModel.PrintList(repo.ItemsGetAll<T>()));
         }
 
         private void addListBoxItem(string text, Brush foreground = null)

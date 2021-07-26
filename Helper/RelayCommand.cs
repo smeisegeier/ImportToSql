@@ -3,8 +3,6 @@ using System.Windows.Input;
 
 namespace Rki.ImportToSql
 {
-    // DOC this needs comments so bad
-
     /// <summary>
     /// Implements ICommand to bind commands to wpf.
     /// can be called w/ |object| as type, when there is none to be passed

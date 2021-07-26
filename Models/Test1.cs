@@ -1,5 +1,4 @@
-﻿using NJsonSchema;
-using Rki.ImportToSql.Services;
+﻿using Rki.ImportToSql.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,17 +29,19 @@ namespace Rki.ImportToSql.Models
             new Test1("berlin","germ")
         };
 
-
-
-        /* Experimental */
-        public static JsonSchema Schema = JsonSchema.FromType<Test1>();
-        public static string SchemaString = @"{
-            'Id': {'type': 'string'},
-            'City': {'type': 'string'},
-            'Country': {'type': 'string'}
-            }";
-
         public static RepoTest1 Repo { get; set; } = new();
+
+
+
+
+        /* Experimental, requires NJsonSchema*/
+        //public static JsonSchema Schema = JsonSchema.FromType<Test1>();
+        //public static string SchemaString = @"{
+        //    'Id': {'type': 'string'},
+        //    'City': {'type': 'string'},
+        //    'Country': {'type': 'string'}
+        //    }";
+
 
     }
 }

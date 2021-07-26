@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Services
 {
-    public class RepoTest1 : BaseDbContext
+    public class RepoTest1 : BaseRepo
     {
         public DbSet<Test1> Tests1 { get; set; }
 
@@ -16,5 +16,7 @@ namespace Rki.ImportToSql.Services
         {
             optionsBuilder.UseInMemoryDatabase(@"Test1");
         }
+
+        public override string TargetPathInfo => "[server].[db].[schema].[table1]";
     }
 }

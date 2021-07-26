@@ -52,6 +52,7 @@
                           AlternationCount="2" 
                             >
                         <DataGrid.RowStyle>
+                            <!-- Switch off clicking on rows, but still preserve slider -->
                             <Style TargetType="DataGridRow">
                                 <Setter Property="IsHitTestVisible" Value="False"/>
                             </Style>
@@ -61,8 +62,10 @@
                                                     Binding="{Binding TimeStamp}"
                                                     />
                             <DataGridTemplateColumn Header="Message" Width="Auto">
+                                <!--template is needed to reflect text color-->
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
+                                        <!--setting color requires template-->
                                         <TextBlock Text="{Binding Text}"
                                                        Foreground="{Binding Foreground}"
                                                        FontWeight="Bold"

@@ -1,5 +1,4 @@
-﻿using NJsonSchema;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +7,25 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Models
 {
+    // TODO use DbFirst approach
+    // https://www.entityframeworktutorial.net/efcore/create-model-for-existing-database-in-ef-core.aspx
     public abstract class BaseModel
     {
+        /// <summary>
+        /// Id is Db-only and must not come from json object.
+        /// </summary>
         [JsonIgnore]
         public int Id { get; set; }
 
-        // HACK create better hash
+        /// <summary>
+        /// Comparer for existance of item in table. 
+        /// HACK create better hash
+        /// </summary>
         [JsonIgnore]
         public abstract string Hash { get; }
 
         public static string PrintList<T>(List<T> list) where T : BaseModel =>
             string.Join(Environment.NewLine, list.Select(x => x.ToString()));
+
     }
 }
