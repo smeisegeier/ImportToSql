@@ -1,7 +1,6 @@
 ﻿using ChoETL;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using Rki.ImportToSql.Helper;
 using Rki.ImportToSql.Models;
 using Rki.ImportToSql.Services;
@@ -75,11 +74,6 @@ namespace Rki.ImportToSql.ViewModels
 
         private void onUpload(string json)
         {
-            bool match;
-            IList<string> messages;
-            JArray jlist = JArray.Parse(json);
-            match = jlist.IsValid(Schema03Anmeldungen.Schema, out messages);
-
 
             if (json.ToJsonTryParse(out List<Test1> list1))
             {
