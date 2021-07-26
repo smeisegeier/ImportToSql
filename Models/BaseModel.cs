@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Models
 {
-    // TODO use DbFirst approach
     // https://www.entityframeworktutorial.net/efcore/create-model-for-existing-database-in-ef-core.aspx
     public abstract class BaseModel
     {
@@ -18,8 +17,7 @@ namespace Rki.ImportToSql.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Comparer for existance of item in table. 
-        /// HACK create better hash
+        /// Comparer for existance of item in table. Create fitting Hash for each class.
         /// </summary>
         [JsonIgnore]
         public abstract string Hash { get; }

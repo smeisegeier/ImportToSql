@@ -14,7 +14,10 @@ namespace Rki.ImportToSql.Services
     /// 1) Register new class w/ properties in /models
     /// 2) Assign a Repo to that class under /services
     /// 3) In that repo, have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties. 
-    /// 4) This repo must be placed as a *static* property in the class for easy access, incl. initializer. 
+    /// 4) This repo must be placed as a *static* property in the class for easy access, incl. initializer.
+    /// 5) Tweak connection strings, paths etc.
+    /// 6) Register in pm: Add-Migrations Schema03 -Context RepoSchema03.
+    /// 7) Register in flow logic (viewModel).
     /// </summary>
     public abstract class BaseRepo : DbContext
     {

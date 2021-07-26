@@ -87,8 +87,13 @@ namespace Rki.ImportToSql.ViewModels
                 return;
             }
 
+            if (json.ToJsonTryParse(out List<Schema03Anmeldungen> list3))
+            {
+                processUpload(list3, Schema03Anmeldungen.Repo);
+                return;
+            }
 
-            StaticHelper.MyMessageBoxNotificationInfo("Unknown Type.");
+            StaticHelper.MyMessageBoxNotificationInfo("Unknown Type or structure violation.");
 
         }
 
