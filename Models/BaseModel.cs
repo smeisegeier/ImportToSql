@@ -10,6 +10,7 @@ namespace Rki.ImportToSql.Models
     // https://www.entityframeworktutorial.net/efcore/create-model-for-existing-database-in-ef-core.aspx
     public abstract class BaseModel
     {
+        // TODO wird Id erkannt im csv?
         /// <summary>
         /// Id is Db-only and must not come from json object.
         /// </summary>
