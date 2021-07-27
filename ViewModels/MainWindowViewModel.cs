@@ -1,8 +1,9 @@
 ﻿using ChoETL;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Linq;
 using Rki.ImportToSql.Helper;
 using Rki.ImportToSql.Models;
+using Rki.ImportToSql.Models.dto;
 using Rki.ImportToSql.Services;
 using Rki.ImportToSql.Views;
 using System;
@@ -20,14 +21,22 @@ namespace Rki.ImportToSql.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        /* relay commands */
         public ICommand ExitCommand { get; private set; }
         public ICommand UploadCommand { get; private set; }
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
+        public RelayCommand<RoutedEventArgs> CheckedCommand { get; private set; }
 
         public bool UploadEnabled => DropFilePathFull?.Length > 5;
+
+        /* message area */
         public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new();
 
 
+        /* dropDown area*/
+        public List<DropDownItem> DropDownItems => DropDownItem.GetDefaultValues() ?? new List<DropDownItem>();
+        public DropDownItem SelectedDropDownItem { get; set; }
+        public bool DropDownIsEnabled { get; private set; }
 
         public string DropFilePathFull
         {
@@ -54,9 +63,12 @@ namespace Rki.ImportToSql.ViewModels
                 );
 
             DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
+            CheckedCommand = new RelayCommand<RoutedEventArgs>(toggleButtonIsChecked);
 
             addListBoxItem("App Started", Globals.COLOR_SUCCESS);
         }
+
+        private void toggleButtonIsChecked(RoutedEventArgs e) => DropDownIsEnabled = true;
 
         // https://stackoverflow.com/questions/6205472/mvvm-passing-eventargs-as-command-parameter
         private void grid_Drop(DragEventArgs e)
@@ -72,8 +84,32 @@ namespace Rki.ImportToSql.ViewModels
         }
 
 
+        // TODO create a dropdown
         private void onUpload(string json)
         {
+            Type T = SelectedDropDownItem.TypeName;
+            // https://stackoverflow.com/questions/3384976/calling-a-static-method-using-a-type
+
+            /* Schema */
+            JArray jlist = JArray.Parse(json);
+            
+
+            if (jlist.IsValid(Schema03Dto.Schema, out IList<string> messages03))
+            {
+
+            }
+            else
+            {
+                StaticHelper.MyMessageBoxNotificationInfo(string.Join(Environment.NewLine, messages03));
+            }
+
+
+            if (json.ToJsonTryParse(out List<Schema03Anmeldungen> list3))
+            {
+                processUpload(list3, Schema03Anmeldungen.Repo);
+                return;
+            }
+
 
             if (json.ToJsonTryParse(out List<Test1> list1))
             {
@@ -87,12 +123,6 @@ namespace Rki.ImportToSql.ViewModels
                 return;
             }
 
-            if (json.ToJsonTryParse(out List<Schema03Anmeldungen> list3))
-            {
-                processUpload(list3, Schema03Anmeldungen.Repo);
-                return;
-            }
-
             StaticHelper.MyMessageBoxNotificationInfo("Unknown Type or structure violation.");
 
         }
@@ -102,6 +132,7 @@ namespace Rki.ImportToSql.ViewModels
             // no entries?
             if (!list.Any())
                 return;
+
 
             /* Feedback to user */
             if (repo.ItemsExist(list))

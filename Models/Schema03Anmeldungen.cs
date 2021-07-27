@@ -1,4 +1,7 @@
-﻿using Rki.ImportToSql.Services;
+﻿using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
+using Rki.ImportToSql.Models.dto;
+using Rki.ImportToSql.Services;
 using System;
 using System.Collections.Generic;
 
@@ -19,5 +22,31 @@ namespace Rki.ImportToSql.Models
         public override string Hash => Dea_Id;
 
         public static RepoSchema03 Repo { get; set; } = new();
+
+        /// <summary>
+        /// Mapping domain <-> dto
+        /// </summary>
+        /// <param name="input">dto</param>
+        public static implicit operator Schema03Anmeldungen(Schema03Dto input)
+        {
+            int statuswert_Id;
+            if (!int.TryParse(input.Statuswert_Id, out statuswert_Id))
+            {
+                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
+                return null;
+            }
+
+            return new Schema03Anmeldungen()
+            {
+                Dea_Id = input.Dea_Id,
+                Plz = input.Plz,
+                Name = input.Name,
+                Statuswert_Id = statuswert_Id,
+                ModifiedBy = input.ModifiedBy,
+                ModifiedAt = input.ModifiedAt,
+                Kommentar = input.Kommentar
+            };
+        }
+
     }
 }

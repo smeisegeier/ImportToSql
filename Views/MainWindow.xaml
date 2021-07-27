@@ -20,6 +20,41 @@
                         Command="{Binding UploadCommand}" 
                         IsEnabled="{Binding UploadEnabled}"
                         />
+                <!--<ComboBox ItemsSource="{Binding DropDownItems}"
+                          SelectedItem="{Binding SelectedDropDownItem}"
+                          DisplayMemberPath="Name"
+                          >
+                </ComboBox>-->
+                <StackPanel Orientation="Horizontal" >
+                    <ToggleButton Content="ON LINE MODE" 
+                                  Style="{StaticResource ToggleButtonStyle1}"
+                                  >
+                        <behaviours:Interaction.Triggers>
+                            <behaviours:EventTrigger EventName="Checked">
+                                <behaviours:InvokeCommandAction 
+                                Command="{Binding CheckedCommand}"
+                                PassEventArgsToCommand="True" 
+                                />
+                            </behaviours:EventTrigger>
+                        </behaviours:Interaction.Triggers>
+                    </ToggleButton>
+                    <ComboBox ItemsSource="{Binding DropDownItems}"
+                              SelectedItem="{Binding SelectedDropDownItem}"
+                              HorizontalAlignment="Stretch"
+                              >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding IconPath}" Width="20" Height="20" />
+                                    <TextBlock Text="{Binding Name}"
+                                           FontWeight="Bold"
+                                           />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                </StackPanel>
             </StackPanel>
             <StackPanel>
                 <Image Source="/Resources/Images/Drag_csv.png"
