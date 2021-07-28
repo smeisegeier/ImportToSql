@@ -9,6 +9,13 @@
         d:DataContext="{d:DesignInstance vm:UploadWindowViewModel, IsDesignTimeCreatable=True}"
         Title="UploadView" Height="500" Width="400">
     <Grid>
-
+        <DockPanel>
+            <Button DockPanel.Dock="Top">Button 1</Button>
+            <Button DockPanel.Dock="Bottom">Button 3</Button>
+            <StackPanel>
+                <Button>Button 2a</Button>
+                <Button>Button 2b</Button>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

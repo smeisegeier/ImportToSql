@@ -8,11 +8,11 @@
         xmlns:behaviours="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
-        Title="Import this" Height="800" Width="600">
+        Title="Import this!" Height="800" Width="600">
     <Grid>
-        <StackPanel>
+        <DockPanel>
             <!--Dropzone-->
-            <StackPanel>
+            <StackPanel DockPanel.Dock="Top">
                 <Border BorderBrush="Gray" BorderThickness="1">
                     <Image Source="/Resources/Images/Drag_csv.png"
                            AllowDrop="True"
@@ -30,7 +30,8 @@
                 </Border>
             </StackPanel>
             <!--FilePathDisplay-->
-            <DockPanel Margin="10,10,10,0">
+            <DockPanel DockPanel.Dock="Top"
+                       Margin="10,10,10,0">
                 <Label Content="FilePath" FontWeight="SemiBold"/>
                 <TextBox TextWrapping="Wrap" 
                          Text="{Binding DropFilePathFull, Mode=OneWay}" 
@@ -40,7 +41,7 @@
                          />
             </DockPanel>
             <!--Buttons-->
-            <StackPanel>
+            <StackPanel DockPanel.Dock="Top">
                 <DockPanel Margin="10,10,10,0">
                     <Label Content="AutoDetection" FontWeight="SemiBold"/>
                     <toggle:HorizontalToggleSwitch>
@@ -83,65 +84,65 @@
                         IsEnabled="{Binding UploadIsEnabled}"
                         />
             </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom"
+                        HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Bottom">
+                <DockPanel Margin="10,10,10,0">
+                    <StackPanel HorizontalAlignment="Left" 
+                            VerticalAlignment="Bottom" 
+                            MinWidth="200" 
+                            Margin="10,0,0,10">
+                        <Label Content="Version" />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
+                        <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit"
+                            Command="{Binding ExitCommand}"
+                            ToolTipService.InitialShowDelay="10">
+                            <Image Source="/Resources/Images/Icon_Exit.jpg" 
+                               Height="30" 
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </StackPanel>
             <!--Messages-->
-            <DockPanel>
-                <TextBlock DockPanel.Dock="Top"
-                           Text="Ausgabekonsole" 
-                           FontWeight="SemiBold"
-                           Margin="10"/>
-                <DataGrid DockPanel.Dock="Bottom"
-                          ItemsSource="{Binding ListBoxItems}"
+            <TextBlock DockPanel.Dock="Top" 
+                       Text="Messages" 
+                       FontWeight="Bold"
+                       Margin="10,10,10,0"
+                           />
+            <!--All other elements of the DockPanel have orientation. 
+            DataGrid is last child and fills-->
+            <DataGrid ItemsSource="{Binding ListBoxItems}"
                           AutoGenerateColumns="False"
                           CanUserResizeColumns="True"
                           AlternatingRowBackground="#FFE9E9E9"
                           AlternationCount="2" 
                             >
-                    <DataGrid.RowStyle>
-                        <!-- Switch off clicking on rows, but still preserve slider -->
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="IsHitTestVisible" Value="False"/>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Time"
+                <DataGrid.RowStyle>
+                    <!-- Switch off clicking on rows, but still preserve slider -->
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Time"
                                                     Binding="{Binding TimeStamp}"
                                                     />
-                        <DataGridTemplateColumn Header="Message" Width="Auto">
-                            <!--template is needed to reflect text color-->
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <!--setting color requires template-->
-                                    <TextBlock Text="{Binding Text}"
+                    <DataGridTemplateColumn Header="Message" Width="Auto">
+                        <!--template is needed to reflect text color-->
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--setting color requires template-->
+                                <TextBlock Text="{Binding Text}"
                                                        Foreground="{Binding Foreground}"
                                                        FontWeight="Bold"
                                                        />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Bottom">
-            <DockPanel>
-                <StackPanel HorizontalAlignment="Left" 
-                            VerticalAlignment="Bottom" 
-                            MinWidth="200" 
-                            Margin="10,0,0,10">
-                    <Label Content="Version" />
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
-                    <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit"
-                            Command="{Binding ExitCommand}"
-                            ToolTipService.InitialShowDelay="10">
-                        <Image Source="/Resources/Images/Icon_Exit.jpg" 
-                               Height="30" 
-                               RenderOptions.BitmapScalingMode="HighQuality" />
-                    </Button>
-                </StackPanel>
-            </DockPanel>
-        </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
     </Grid>
 </Window>
