@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rki.ImportToSql.Models;
+using Rki.ImportToSql.Models.Domain;
 
 namespace Rki.ImportToSql.Services
 {

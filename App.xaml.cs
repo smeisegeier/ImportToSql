@@ -1,4 +1,5 @@
 ﻿using Rki.ImportToSql.Models;
+using Rki.ImportToSql.Models.Domain;
 using Rki.ImportToSql.ViewModels;
 using Rki.ImportToSql.Views;
 using System;

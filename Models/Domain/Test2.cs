@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rki.ImportToSql.Models
+namespace Rki.ImportToSql.Models.Domain
 {
     public class Test2 : BaseModel
     {

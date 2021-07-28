@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rki.ImportToSql.Models.dto
+namespace Rki.ImportToSql.Models.Dto
 {
     public class Schema03Dto
     {

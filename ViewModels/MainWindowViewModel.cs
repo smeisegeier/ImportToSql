@@ -3,7 +3,6 @@ using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Linq;
 using Rki.ImportToSql.Helper;
 using Rki.ImportToSql.Models;
-using Rki.ImportToSql.Models.dto;
 using Rki.ImportToSql.Services;
 using Rki.ImportToSql.Views;
 using System;
@@ -17,6 +16,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
+using Rki.ImportToSql.Models.Domain;
+using System.Collections;
 
 namespace Rki.ImportToSql.ViewModels
 {
@@ -27,7 +28,7 @@ namespace Rki.ImportToSql.ViewModels
 
 
         /* DropDown area*/
-        public IEnumerable<DropDownItem> DropDownItems => DropDownItem.GetDefaultValues() ?? new List<DropDownItem>();
+        public IEnumerable<DropDownItem> DropDownItems => FileSchema.ListOfAllFileSchemas.Select(x => x.DropDownItem)?? new List<DropDownItem>();
         public DropDownItem SelectedDropDownItem
         {
             get => _selectedDropDownItem;
@@ -142,28 +143,35 @@ namespace Rki.ImportToSql.ViewModels
 
         private void onUploadManual(string json)
         {
-            /* Schema */
-            JArray jlist = JArray.Parse(json);
-            JSchema jSchema = null;
-            Type T = SelectedDropDownItem.TypeNameDto;
+            // parse json -> array
+            JArray jsonArray = JArray.Parse(json);
 
-            // https://stackoverflow.com/questions/3384976/calling-a-static-method-using-a-type
-            var propertyInfo = T?.GetProperty("Schema");
-            jSchema = (JSchema)propertyInfo?.GetValue(null, null);
+            // get the FileSchema item off of the user selected dropdown item
+            FileSchema fileSchema = FileSchema.ListOfAllFileSchemas.FirstOrDefault(x => x.DropDownItem == SelectedDropDownItem);
+            Type typeDtoSchema = fileSchema.TypeDtoSchema;
+            JSchema jsonSchema = fileSchema.JsonSchema;
+            BaseRepo repository = fileSchema.Repository;
 
-            if (jSchema == null)
+            // create a generic List where the type is unknown at compile time
+            Type typeGenericList = typeof(List<>).MakeGenericType(new[] { typeDtoSchema });
+            IList genericList = (IList)Activator.CreateInstance(typeGenericList);
+
+            if (jsonSchema == null)
             {
                 StaticHelper.MyMessageBoxNotificationInfo("Schema Error");
                 return;
             }
 
-            if (jlist.IsValid(jSchema, out IList<string> messages))
-            {
-                StaticHelper.MyMessageBoxNotificationInfo("You may proceed");
-            }
-            else
+            if (!jsonArray.IsValid(jsonSchema, out IList<string> messages))
             {
                 StaticHelper.MyMessageBoxNotificationInfo(string.Join(Environment.NewLine, messages));
+            }
+            
+            if (json.ToJsonTryParse(out genericList))
+            {
+                // HACK
+                //processUpload(genericList, repository);
+                return;
             }
 
         }

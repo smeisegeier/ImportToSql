@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
-using Rki.ImportToSql.Models.dto;
+using Rki.ImportToSql.Models.Dto;
 using Rki.ImportToSql.Services;
 using System;
 using System.Collections.Generic;
 
 #nullable disable
 
-namespace Rki.ImportToSql.Models
+namespace Rki.ImportToSql.Models.Domain
 {
     public partial class Schema03Anmeldungen : BaseModel
     {

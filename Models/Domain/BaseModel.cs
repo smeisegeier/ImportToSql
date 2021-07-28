@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Rki.ImportToSql.Models
+namespace Rki.ImportToSql.Models.Domain
 {
     // https://www.entityframeworktutorial.net/efcore/create-model-for-existing-database-in-ef-core.aspx
     public abstract class BaseModel
