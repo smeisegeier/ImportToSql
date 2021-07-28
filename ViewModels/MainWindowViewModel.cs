@@ -25,9 +25,8 @@ namespace Rki.ImportToSql.ViewModels
         public ICommand ExitCommand { get; private set; }
         public ICommand UploadCommand { get; private set; }
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
-        public RelayCommand<RoutedEventArgs> CheckedCommand { get; private set; }
 
-        public bool UploadEnabled => DropFilePathFull?.Length > 5;
+        public bool UploadEnabled => DropDownIsEnabled;//DropFilePathFull?.Length > 5;
 
         /* message area */
         public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new();
@@ -36,7 +35,21 @@ namespace Rki.ImportToSql.ViewModels
         /* dropDown area*/
         public List<DropDownItem> DropDownItems => DropDownItem.GetDefaultValues() ?? new List<DropDownItem>();
         public DropDownItem SelectedDropDownItem { get; set; }
-        public bool DropDownIsEnabled { get; private set; }
+        public RelayCommand<RoutedEventArgs> CheckedCommand { get; private set; }
+        public RelayCommand<RoutedEventArgs> UncheckedCommand { get; private set; }
+
+        public bool DropDownIsEnabled
+        {
+            get => _dropDownIsEnabled;
+            private set 
+            { 
+                _dropDownIsEnabled = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(UploadEnabled));
+            }
+        }
+        private bool _dropDownIsEnabled;
+
 
         public string DropFilePathFull
         {
@@ -63,12 +76,14 @@ namespace Rki.ImportToSql.ViewModels
                 );
 
             DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
-            CheckedCommand = new RelayCommand<RoutedEventArgs>(toggleButtonIsChecked);
+            CheckedCommand = new RelayCommand<RoutedEventArgs>(o => { DropDownIsEnabled = true; });
+            UncheckedCommand = new RelayCommand<RoutedEventArgs>(o => { DropDownIsEnabled = false; });
 
             addListBoxItem("App Started", Globals.COLOR_SUCCESS);
         }
 
         private void toggleButtonIsChecked(RoutedEventArgs e) => DropDownIsEnabled = true;
+        private void toggleButtonIsUnchecked(RoutedEventArgs e) => DropDownIsEnabled = false;
 
         // https://stackoverflow.com/questions/6205472/mvvm-passing-eventargs-as-command-parameter
         private void grid_Drop(DragEventArgs e)
@@ -84,7 +99,6 @@ namespace Rki.ImportToSql.ViewModels
         }
 
 
-        // TODO create a dropdown
         private void onUpload(string json)
         {
             Type T = SelectedDropDownItem.TypeName;
@@ -92,7 +106,7 @@ namespace Rki.ImportToSql.ViewModels
 
             /* Schema */
             JArray jlist = JArray.Parse(json);
-            
+
 
             if (jlist.IsValid(Schema03Dto.Schema, out IList<string> messages03))
             {

@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Rki.ImportToSql.ViewModels"
+        xmlns:toggle="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
         xmlns:behaviours="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
@@ -26,9 +27,7 @@
                           >
                 </ComboBox>-->
                 <StackPanel Orientation="Horizontal" >
-                    <ToggleButton Content="ON LINE MODE" 
-                                  Style="{StaticResource ToggleButtonStyle1}"
-                                  >
+                    <toggle:HorizontalToggleSwitch>
                         <behaviours:Interaction.Triggers>
                             <behaviours:EventTrigger EventName="Checked">
                                 <behaviours:InvokeCommandAction 
@@ -36,8 +35,14 @@
                                 PassEventArgsToCommand="True" 
                                 />
                             </behaviours:EventTrigger>
+                            <behaviours:EventTrigger EventName="Unchecked">
+                                <behaviours:InvokeCommandAction 
+                                Command="{Binding UncheckedCommand}"
+                                PassEventArgsToCommand="True" 
+                                />
+                            </behaviours:EventTrigger>
                         </behaviours:Interaction.Triggers>
-                    </ToggleButton>
+                    </toggle:HorizontalToggleSwitch>
                     <ComboBox ItemsSource="{Binding DropDownItems}"
                               SelectedItem="{Binding SelectedDropDownItem}"
                               HorizontalAlignment="Stretch"
