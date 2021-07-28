@@ -31,7 +31,7 @@ namespace Rki.ImportToSql.Services
         /// <typeparam name="T">type of objects</typeparam>
         /// <param name="list">list of all objects</param>
         /// <returns>true | false</returns>
-        public bool ItemsExist<T>(List<T> list)  where T : BaseModel => ItemsGetAll<T>().Any(x => x.Hash == list.First().Hash);
+        public bool ItemsExist<T>(IList<T> list)  where T : BaseModel => ItemsGetAll<T>().Any(x => x.Hash == list.First().Hash);
 
         public List<T> ItemsGetAll<T>() where T : BaseModel => Set<T>().OrderBy(x=>x.Id).ToList();
 
@@ -40,7 +40,7 @@ namespace Rki.ImportToSql.Services
         public T ItemGetById<T>(int id) where T : BaseModel => 
             ItemsGetAll<T>().FirstOrDefault(x=>x.Id == id);
         
-        public int ItemAddList<T>(List<T> list) where T : BaseModel
+        public int ItemAddList<T>(IEnumerable<T> list) where T : BaseModel
         {
             Set<T>().AddRange(list);
             return SaveChanges();

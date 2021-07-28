@@ -27,7 +27,7 @@ namespace Rki.ImportToSql.ViewModels
 
 
         /* DropDown area*/
-        public List<DropDownItem> DropDownItems => DropDownItem.GetDefaultValues() ?? new List<DropDownItem>();
+        public IEnumerable<DropDownItem> DropDownItems => DropDownItem.GetDefaultValues() ?? new List<DropDownItem>();
         public DropDownItem SelectedDropDownItem
         {
             get => _selectedDropDownItem;
@@ -151,20 +151,20 @@ namespace Rki.ImportToSql.ViewModels
             }
 
 
-            if (json.ToJsonTryParse(out List<Schema03Anmeldungen> list3))
+            if (json.ToJsonTryParse(out IList<Schema03Anmeldungen> list3))
             {
                 processUpload(list3, Schema03Anmeldungen.Repo);
                 return;
             }
 
 
-            if (json.ToJsonTryParse(out List<Test1> list1))
+            if (json.ToJsonTryParse(out IList<Test1> list1))
             {
                 processUpload(list1, Test1.Repo);
                 return;
             }
 
-            if (json.ToJsonTryParse(out List<Test2> list2))
+            if (json.ToJsonTryParse(out IList<Test2> list2))
             {
                 processUpload(list2, Test2.Repo);
                 return;
@@ -174,7 +174,7 @@ namespace Rki.ImportToSql.ViewModels
 
         }
 
-        private void processUpload<T>(List<T> list, BaseRepo repo) where T : BaseModel
+        private void processUpload<T>(IList<T> list, BaseRepo repo) where T : BaseModel
         {
             // no entries?
             if (!list.Any())

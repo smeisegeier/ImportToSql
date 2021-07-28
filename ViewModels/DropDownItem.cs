@@ -20,7 +20,7 @@ namespace Rki.ImportToSql.ViewModels
             IconPath = iconPath;
         }
 
-        public static List<DropDownItem> GetDefaultValues() => new List<DropDownItem>()
+        public static IEnumerable<DropDownItem> GetDefaultValues() => new List<DropDownItem>()
         {
             new DropDownItem("Test01", typeof(Test1), "/resources/images/blau.png"),
             new DropDownItem("Test02", typeof(Test2),  "/resources/images/gelb.png"),
