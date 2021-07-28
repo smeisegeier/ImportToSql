@@ -25,9 +25,21 @@ namespace Rki.ImportToSql.Helper
             }
         }
 
+        public String[] getColumnNames()
+        {
+            List<String> _tempList = new();
+
+            foreach(Column item in columns)
+            {
+                _tempList.Add(item.getColumnHeader());
+            }
+
+            return _tempList.ToArray();
+        }
+
         public Column getColumnByName(String name)
         {
-            foreach(Column item in columns)
+            foreach (Column item in columns)
             {
                 if (item.getColumnHeader() == name) return item;
             }
@@ -36,12 +48,6 @@ namespace Rki.ImportToSql.Helper
 
         }
 
-
-        public bool createSqlTable()
-        {
-
-            return false;
-        }
 
 
         public static string getDataTypeByContentType(ContentType type)
