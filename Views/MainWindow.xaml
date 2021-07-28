@@ -10,11 +10,7 @@
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="Import this" Height="800" Width="600">
     <Grid>
-        <StackPanel Margin="10,0,10,0">
-            <!--Label-->
-            <!--<StackPanel HorizontalAlignment="Center">
-                <Label x:Name="Header" Content="Import" FontSize="24" FontWeight="Bold" Margin="0,10,0,10" />
-            </StackPanel>-->
+        <StackPanel>
             <!--Dropzone-->
             <StackPanel>
                 <Border BorderBrush="Gray" BorderThickness="1">
@@ -127,16 +123,22 @@
             </DockPanel>
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+        <StackPanel HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Bottom">
             <DockPanel>
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="200" Margin="10,0,0,10">
-                    <Label x:Name="lVersion" Content="Version" />
+                <StackPanel HorizontalAlignment="Left" 
+                            VerticalAlignment="Bottom" 
+                            MinWidth="200" 
+                            Margin="10,0,0,10">
+                    <Label Content="Version" />
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
                     <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit"
                             Command="{Binding ExitCommand}"
                             ToolTipService.InitialShowDelay="10">
-                        <Image Source="/Resources/Images/Icon_Exit.jpg" Height="30" RenderOptions.BitmapScalingMode="HighQuality" />
+                        <Image Source="/Resources/Images/Icon_Exit.jpg" 
+                               Height="30" 
+                               RenderOptions.BitmapScalingMode="HighQuality" />
                     </Button>
                 </StackPanel>
             </DockPanel>
