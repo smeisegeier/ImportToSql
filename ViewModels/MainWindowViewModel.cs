@@ -109,7 +109,8 @@ namespace Rki.ImportToSql.ViewModels
                 );
             DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
 
-            CheckedCommand = new RelayCommand<RoutedEventArgs>(o => { 
+            CheckedCommand = new RelayCommand<RoutedEventArgs>(o =>
+            {
                 ToggleIsEnabled = true;
                 // also remove item from dropdown
                 SelectedDropDownItem = null;
@@ -131,25 +132,44 @@ namespace Rki.ImportToSql.ViewModels
             }
         }
 
-        // TODO update userflow
         private void onUpload(string json)
         {
-            Type T = SelectedDropDownItem.TypeName;
-            // https://stackoverflow.com/questions/3384976/calling-a-static-method-using-a-type
+            if (ToggleIsEnabled)
+                onUploadAuto(json);
+            else
+                onUploadManual(json);
+        }
 
+        private void onUploadManual(string json)
+        {
             /* Schema */
             JArray jlist = JArray.Parse(json);
+            JSchema jSchema = null;
+            Type T = SelectedDropDownItem.TypeNameDto;
 
+            // https://stackoverflow.com/questions/3384976/calling-a-static-method-using-a-type
+            var propertyInfo = T?.GetProperty("Schema");
+            jSchema = (JSchema)propertyInfo?.GetValue(null, null);
 
-            if (jlist.IsValid(Schema03Dto.Schema, out IList<string> messages03))
+            if (jSchema == null)
             {
+                StaticHelper.MyMessageBoxNotificationInfo("Schema Error");
+                return;
+            }
 
+            if (jlist.IsValid(jSchema, out IList<string> messages))
+            {
+                StaticHelper.MyMessageBoxNotificationInfo("You may proceed");
             }
             else
             {
-                StaticHelper.MyMessageBoxNotificationInfo(string.Join(Environment.NewLine, messages03));
+                StaticHelper.MyMessageBoxNotificationInfo(string.Join(Environment.NewLine, messages));
             }
 
+        }
+
+        private void onUploadAuto(string json)
+        {
 
             if (json.ToJsonTryParse(out IList<Schema03Anmeldungen> list3))
             {
@@ -171,7 +191,6 @@ namespace Rki.ImportToSql.ViewModels
             }
 
             StaticHelper.MyMessageBoxNotificationInfo("Unknown Type or structure violation.");
-
         }
 
         private void processUpload<T>(IList<T> list, BaseRepo repo) where T : BaseModel
