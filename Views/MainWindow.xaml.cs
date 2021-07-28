@@ -27,6 +27,10 @@ namespace Rki.ImportToSql.Views
 
         private string csvPath;
 
+        List<String> messages = new();
+
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,21 +50,32 @@ namespace Rki.ImportToSql.Views
 
         private void Test_DataTableHelper()
         {
+            
             DataTableHelper dataTableHelper = new DataTableHelper(CsvHelper.readCsv(csvPath, ';'));
             if (!dataTableHelper.getColumnByName("Zahl").parseIntoContentType(ContentType.INT)) MessageBox.Show("Inhalt konnte nicht umgewandelt werden!");
             if (!dataTableHelper.getColumnByName("Datum").parseIntoContentType(ContentType.DATETIME)) MessageBox.Show("Datum konnte nicht umgewandelt werden!");
 
             SqlHelper.SqlDataTypes[] helper = { SqlHelper.SqlDataTypes.NVARCHAR_MAX, SqlHelper.SqlDataTypes.INT, SqlHelper.SqlDataTypes.DATETIME };
 
-            SqlHelper.createTable(server, database, dataTableHelper.getColumnNames(), helper, "Test", "dbo");
+            SqlHelper.createTable(out messages, server, database, dataTableHelper.getColumnNames(), helper, "Test", "dbo");
 
             //List<String> tables =  SqlHelper.GetTablesList(server, database);
             //DataTable tab = SqlHelper.getTableInformation(server, database, tables[0].ToString());
+            showMessages();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Test_DataTableHelper();
+        }
+
+        public void showMessages()
+        {
+            foreach(String item in messages)
+            {
+                MessageBox.Show(item);
+            }
         }
     }
 

@@ -11,7 +11,7 @@ namespace Rki.ImportToSql.Helper
 {
     static class SqlHelper
     {
-        private static Regex reg_columnName = new Regex("[^a-zA-Z0-9_]+$");
+        private static String reg_columnName = @"[a-zA-Z0-9_]+$";
 
 
         private static string GetConnectionStringSQL(String _server, String _database, int timeout = 30)
@@ -60,17 +60,29 @@ namespace Rki.ImportToSql.Helper
         }
 
 
-        public static bool createTable(String _server, String _database, String[] _columns, SqlDataTypes[] _datatypes, String _table, String _schema = "dbo")
+        public static bool createTable(out List<String> messages, String _server, String _database, String[] _columns, SqlDataTypes[] _datatypes, String _table, String _schema = "dbo")
         {
-            //exists table already?
-            if (existsTable(_server, _database, _table, _schema)) return false;
+            messages = new();
 
+            //exists table already?
+            if (existsTable(_server, _database, _table, _schema))
+            {
+                messages.Add("Tabelle existiert bereits!");
+                return false;
+            }
             //same number of columns and datatypes?
-            if (_columns.Length != _datatypes.Length) return false;
+            if (_columns.Length != _datatypes.Length)
+            {
+                messages.Add("Anzahl der Spalten stimmt nicht mit der Anzahl der Datentypen ein!");
+                return false;
+            }
 
 
             //check names of columns
-            if (!checkColumNames(_columns)) return false;
+            if (!checkColumNames(_columns, out messages))
+            {
+                return false;
+            }
 
             //create table
             string conStr = GetConnectionStringSQL(_server, _database, 5);
@@ -85,13 +97,20 @@ namespace Rki.ImportToSql.Helper
                     }
                     catch
                     {
+                        messages.Add("SQL-Create schlug fehl..");
                         return false;
                     }
                 }
             }
 
-
-            return existsTable(_server, _database, _table, _schema);
+            if(existsTable(_server, _database, _table, _schema))
+            {
+                return true;
+            } else
+            {
+                messages.Add("Tabelle konnte nach Erstellung nicht gefunden werden!");
+                return false;
+            }
         }
 
         private static bool existsTable(String _server, String _database, String _table, String _schema)
@@ -126,18 +145,24 @@ namespace Rki.ImportToSql.Helper
 
 
 
-        private static bool checkColumNames(String[] _columns)
+        private static bool checkColumNames(String[] _columns, out List<String> _messages)
         {
-            List<String> columnNames = new List<string>();
+            _messages = new();
+            List<String> columnNames = new();
 
             foreach(String item in _columns)
             {
                 //check used letters
-                //if(!reg_columnName.IsMatch(item)) return false;
+                if (!Regex.IsMatch(item, reg_columnName))
+                {
+                    _messages.Add("Die Spalte " + item + " besitzt ungültige Zeichen! (Erlaubt: A-Z 0-1 _)");
+                    return false;
+                }
                
                 //exists more than 1 columnheader with same name?
                 if (columnNames.Contains(item))
                 {
+                    _messages.Add("Der Spaltenname " + item + " kommt öfters vor!");
                     return false;
                 } else
                 {
