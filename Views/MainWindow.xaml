@@ -10,23 +10,43 @@
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="Import this" Height="800" Width="600">
     <Grid>
-
         <StackPanel Margin="10,0,10,0">
+            <!--Label-->
             <StackPanel HorizontalAlignment="Center">
                 <Label x:Name="Header" Content="Import" FontSize="24" FontWeight="Bold" Margin="0,10,0,10" />
             </StackPanel>
+            <!--Dropzone-->
             <StackPanel>
-                <Button Content="UPLOAD"
-                        FontWeight="Bold" Height="42" Margin="0,5,0,5"
-                        Command="{Binding UploadCommand}" 
-                        IsEnabled="{Binding UploadEnabled}"
-                        />
-                <!--<ComboBox ItemsSource="{Binding DropDownItems}"
-                          SelectedItem="{Binding SelectedDropDownItem}"
-                          DisplayMemberPath="Name"
-                          >
-                </ComboBox>-->
-                <StackPanel Orientation="Horizontal" >
+                <Border BorderBrush="Gray" BorderThickness="1">
+                    <Image Source="/Resources/Images/Drag_csv.png"
+                           AllowDrop="True"
+                           Stretch="None"                        
+                           >
+                        <behaviours:Interaction.Triggers>
+                            <behaviours:EventTrigger EventName="Drop">
+                                <behaviours:InvokeCommandAction 
+                                Command="{Binding DropCommand}"
+                                PassEventArgsToCommand="True" 
+                                />
+                            </behaviours:EventTrigger>
+                        </behaviours:Interaction.Triggers>
+                    </Image>
+                </Border>
+            </StackPanel>
+            <!--FilePathDisplay-->
+            <DockPanel Margin="10,10,10,0">
+                <Label Content="FilePath" FontWeight="SemiBold"/>
+                <TextBox TextWrapping="Wrap" 
+                         Text="{Binding DropFilePathFull, Mode=OneWay}" 
+                         IsEnabled="False" 
+                         VerticalAlignment="Center"
+                         BorderBrush="{Binding FilePathColor}"                         
+                         />
+            </DockPanel>
+            <!--Buttons-->
+            <StackPanel>
+                <DockPanel Margin="10,10,10,0">
+                    <Label Content="AutoDetection" FontWeight="SemiBold"/>
                     <toggle:HorizontalToggleSwitch>
                         <behaviours:Interaction.Triggers>
                             <behaviours:EventTrigger EventName="Checked">
@@ -46,6 +66,7 @@
                     <ComboBox ItemsSource="{Binding DropDownItems}"
                               SelectedItem="{Binding SelectedDropDownItem}"
                               HorizontalAlignment="Stretch"
+                              IsEnabled="{Binding DropDownIsEnabled}"
                               >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -58,33 +79,20 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-
-                </StackPanel>
+                </DockPanel>
+                <Button Content="UPLOAD"
+                        FontWeight="Bold" Height="42" 
+                        Margin="10,10,10,0"
+                        Command="{Binding UploadCommand}" 
+                        IsEnabled="{Binding UploadIsEnabled}"
+                        />
             </StackPanel>
+            <!--Messages-->
             <StackPanel>
-                <Image Source="/Resources/Images/Drag_csv.png"
-                       AllowDrop="True"
-                       Stretch="None">
-                    <behaviours:Interaction.Triggers>
-                        <behaviours:EventTrigger EventName="Drop">
-                            <behaviours:InvokeCommandAction 
-                                Command="{Binding DropCommand}"
-                                PassEventArgsToCommand="True" 
-                                />
-                        </behaviours:EventTrigger>
-                    </behaviours:Interaction.Triggers>
-                </Image>
-            </StackPanel>
-
-            <StackPanel Margin="10">
-                <TextBox TextWrapping="Wrap" 
-                         Text="{Binding DropFilePathFull, Mode=OneWay}" 
-                         IsEnabled="False" />
-            </StackPanel>
-
-            <StackPanel>
-                <TextBlock Text="Ausgabekonsole" FontWeight="Bold"/>
-                <DockPanel LastChildFill="True" Height="200">
+                <TextBlock Text="Ausgabekonsole" 
+                           FontWeight="SemiBold"
+                           Margin="10"/>
+                <DockPanel LastChildFill="True" MinHeight="150">
                     <DataGrid ItemsSource="{Binding ListBoxItems}"
                           AutoGenerateColumns="False"
                           CanUserResizeColumns="True"
@@ -117,6 +125,9 @@
                     </DataGrid>
                 </DockPanel>
             </StackPanel>
+
+
+
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">

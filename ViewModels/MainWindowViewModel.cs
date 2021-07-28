@@ -16,41 +16,37 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
 
 namespace Rki.ImportToSql.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        /* relay commands */
-        public ICommand ExitCommand { get; private set; }
-        public ICommand UploadCommand { get; private set; }
+        /* DropZone area*/
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
 
-        public bool UploadEnabled => DropDownIsEnabled;//DropFilePathFull?.Length > 5;
 
-        /* message area */
-        public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new();
-
-
-        /* dropDown area*/
+        /* DropDown area*/
         public List<DropDownItem> DropDownItems => DropDownItem.GetDefaultValues() ?? new List<DropDownItem>();
-        public DropDownItem SelectedDropDownItem { get; set; }
-        public RelayCommand<RoutedEventArgs> CheckedCommand { get; private set; }
-        public RelayCommand<RoutedEventArgs> UncheckedCommand { get; private set; }
-
-        public bool DropDownIsEnabled
+        public DropDownItem SelectedDropDownItem
         {
-            get => _dropDownIsEnabled;
-            private set 
-            { 
-                _dropDownIsEnabled = value;
+            get => _selectedDropDownItem;
+            set
+            {
+                _selectedDropDownItem = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(UploadEnabled));
+                OnPropertyChanged(nameof(UploadIsEnabled));
             }
         }
-        private bool _dropDownIsEnabled;
+        private DropDownItem _selectedDropDownItem;
 
+        public RelayCommand<RoutedEventArgs> CheckedCommand { get; private set; }
+        public RelayCommand<RoutedEventArgs> UncheckedCommand { get; private set; }
+        public bool DropDownIsEnabled => !ToggleIsEnabled;
 
+        /* Button area*/
+        public ICommand UploadCommand { get; private set; }
+        public bool UploadIsEnabled => FilePathIsValid && (ToggleIsEnabled || SelectedDropDownItem != null);
         public string DropFilePathFull
         {
             get => _dropFilePathFull;
@@ -58,10 +54,47 @@ namespace Rki.ImportToSql.ViewModels
             {
                 _dropFilePathFull = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(UploadEnabled));
+                OnPropertyChanged(nameof(UploadIsEnabled));
+                OnPropertyChanged(nameof(FilePathIsValid));
+                OnPropertyChanged(nameof(FilePathColor));
             }
         }
-        private string _dropFilePathFull = "xde";
+        private string _dropFilePathFull = "Drop file to get path here";
+
+        public bool FilePathIsValid
+        {
+            get
+            {
+                Regex pattern = new Regex(@"[a-zA-Z]:[\\\/](?:[a-zA-Z0-9_-]+[\\\/])*([a-zA-Z0-9_-]+\.)(csv|txt)");
+                return pattern.IsMatch(DropFilePathFull);
+            }
+        }
+        //  => (DropFilePathFull.EndsWith(".csv") || DropFilePathFull.EndsWith(".txt"))
+        public Brush FilePathColor => FilePathIsValid ? Globals.COLOR_SUCCESS : Globals.COLOR_DANGER;
+
+
+        public bool ToggleIsEnabled
+        {
+            get => _toggleIsEnabled;
+            private set
+            {
+                _toggleIsEnabled = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DropDownIsEnabled));
+                OnPropertyChanged(nameof(UploadIsEnabled));
+            }
+        }
+        private bool _toggleIsEnabled;
+
+
+        /* Messages area */
+        public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new();
+
+
+        /* Exit area*/
+        public ICommand ExitCommand { get; private set; }
+
+
 
         public MainWindowViewModel()
         {
@@ -74,16 +107,17 @@ namespace Rki.ImportToSql.ViewModels
             UploadCommand = new RelayCommand<object>(
                  o => onUpload(csvToJsonFromFullPath(DropFilePathFull))
                 );
-
             DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
-            CheckedCommand = new RelayCommand<RoutedEventArgs>(o => { DropDownIsEnabled = true; });
-            UncheckedCommand = new RelayCommand<RoutedEventArgs>(o => { DropDownIsEnabled = false; });
+
+            CheckedCommand = new RelayCommand<RoutedEventArgs>(o => { 
+                ToggleIsEnabled = true;
+                // also remove item from dropdown
+                SelectedDropDownItem = null;
+            });
+            UncheckedCommand = new RelayCommand<RoutedEventArgs>(o => { ToggleIsEnabled = false; });
 
             addListBoxItem("App Started", Globals.COLOR_SUCCESS);
         }
-
-        private void toggleButtonIsChecked(RoutedEventArgs e) => DropDownIsEnabled = true;
-        private void toggleButtonIsUnchecked(RoutedEventArgs e) => DropDownIsEnabled = false;
 
         // https://stackoverflow.com/questions/6205472/mvvm-passing-eventargs-as-command-parameter
         private void grid_Drop(DragEventArgs e)
@@ -92,13 +126,12 @@ namespace Rki.ImportToSql.ViewModels
             {
                 foreach (string path in (string[])e.Data.GetData(DataFormats.FileDrop))
                 {
-                    if (path.EndsWith(".csv") || path.EndsWith(".txt"))
-                        DropFilePathFull = path;
+                    DropFilePathFull = path;
                 }
             }
         }
 
-
+        // TODO update userflow
         private void onUpload(string json)
         {
             Type T = SelectedDropDownItem.TypeName;
