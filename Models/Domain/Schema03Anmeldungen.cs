@@ -21,8 +21,6 @@ namespace Rki.ImportToSql.Models.Domain
 
         public override string Hash => Dea_Id;
 
-        public static RepoSchema03 Repo { get; set; } = new();
-
         /// <summary>
         /// Mapping domain <-> dto
         /// </summary>

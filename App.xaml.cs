@@ -15,12 +15,12 @@ namespace Rki.ImportToSql
         public void ApplicationStartup(object sender, StartupEventArgs e)
         {
             /* setup repo*/
-            //Globals.RepoTest1 = new ();
-            //Globals.RepoTest2 = new ();
+
             try
             {
                 // correct approach: always try to ensure at startup. Connectivity should be checked later again for button - it could be on/off
-                Test1.Repo.Database.EnsureCreated();
+                // TODO ensure
+                //Test1.Repo.Database.EnsureCreated();
             }
             catch (Microsoft.Data.SqlClient.SqlException ex)
             {

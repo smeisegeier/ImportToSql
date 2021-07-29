@@ -10,7 +10,6 @@ namespace Rki.ImportToSql.Models.Domain
     // https://www.entityframeworktutorial.net/efcore/create-model-for-existing-database-in-ef-core.aspx
     public abstract class BaseModel
     {
-        // TODO wird Id erkannt im csv?
         /// <summary>
         /// Id is Db-only and must not come from json object.
         /// </summary>
@@ -25,6 +24,5 @@ namespace Rki.ImportToSql.Models.Domain
 
         public static string PrintList<T>(List<T> list) where T : BaseModel =>
             string.Join(Environment.NewLine, list.Select(x => x.ToString()));
-
     }
 }

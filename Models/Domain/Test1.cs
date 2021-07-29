@@ -29,10 +29,6 @@ namespace Rki.ImportToSql.Models.Domain
             new Test1("berlin","germ")
         };
 
-        public static RepoTest1 Repo { get; set; } = new();
-
-
-
 
         /* Experimental, requires NJsonSchema*/
         //public static JsonSchema Schema = JsonSchema.FromType<Test1>();

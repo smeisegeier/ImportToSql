@@ -31,7 +31,5 @@ namespace Rki.ImportToSql.Models.Domain
             new Test2("xxde","..",2),
             new Test2("hi","hi there",8)
         };
-
-        public static RepoTest2 Repo { get; set; } = new();
     }
 }

@@ -13,11 +13,13 @@ namespace Rki.ImportToSql.ViewModels
         public string TimeStamp => new TimeSpan(_timeStamp.Hour, _timeStamp.Minute, _timeStamp.Second).ToString();
 
         public string Text { get; set; }
+        public string FileName { get; set; }
         public Brush Foreground { get; set; }
 
-        public ListBoxItem(string text, Brush foreground)
+        public ListBoxItem(string text, Brush foreground, string fileName)
         {
             Text = text;
+            FileName = fileName;
             Foreground = foreground;
         }
     }
