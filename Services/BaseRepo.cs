@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Services
 {
-    // TODO update
     /// <summary>
     /// Builds a generic repository for all classes below base. 
     /// Steps to append new classes: 
-    /// 1) Register new class w/ properties in /models (note: give a meaningful hash, int Id is preset)
-    /// 2) Assign a Repo to that class under /services
-    /// 3) In that repo, have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties. 
-    /// 4) This repo must be placed as a *static* property in the class for easy access, incl. initializer.
-    /// 5) Tweak connection strings, paths etc. to fit to each other
-    /// 6) Register in packetmanager: Add-Migrations Schema03 -Context RepoSchema03
-    /// 7) Register in flow logic (viewModel) OnUpload
+    /// 1) Add new domain class w/ properties in /models (note: give a meaningful hash, int Id is preset)
+    /// 2a) Add a Repo to that class under /services
+    /// 2b) In that repo, have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties. 
+    /// 2c) Tweak connection strings, paths etc. to fit to each other
+    /// 2d) (?) Register repo in packetmanager: Add-Migrations Schema03 -Context RepoSchema03
+    /// 3) Add a dto class that only has the transfered columns
+    /// 4) Register a new FileSchema, using these classes
+    /// 5) complete selector in viewModel (onUpload)
     /// </summary>
     public abstract class BaseRepo : DbContext
     {

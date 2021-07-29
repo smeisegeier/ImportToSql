@@ -18,38 +18,49 @@ namespace Rki.ImportToSql.Models
         public Type TypeDomainSchema { get; set; }
         public JSchema JsonSchema { get; set; }
         public BaseRepo Repository { get; set; }
+        public ApplicationNetworkModeType ApplicationNetworkMode { get; set; }
 
-        public FileSchema(DropDownItem dropDownItem, Type typeDtoSchema, Type typeDomainSchema, JSchema jsonSchema, BaseRepo repository)
+        public FileSchema(DropDownItem dropDownItem, Type typeDtoSchema, Type typeDomainSchema, JSchema jsonSchema, BaseRepo repository, ApplicationNetworkModeType applicationNetworkMode)
         {
             DropDownItem = dropDownItem;
             TypeDtoSchema = typeDtoSchema;
             TypeDomainSchema = typeDomainSchema;
             JsonSchema = jsonSchema;
             Repository = repository;
+            ApplicationNetworkMode = applicationNetworkMode;
         }
-
 
         /// <summary>
         /// The List registers all relevant items of a schema.
         /// This MUST be initialized only once
+        /// enums flags are used
         /// </summary>
-        public static IEnumerable<FileSchema> ListOfAllFileSchemas { get; } = new List<FileSchema>()
+        public static IEnumerable<FileSchema> ListOfAllFileSchemas => _listOfAllFileSchemas
+            .Where(x => Globals.ApplicationNetworkMode.HasFlag(x.ApplicationNetworkMode));
+
+        private static IEnumerable<FileSchema> _listOfAllFileSchemas = new List<FileSchema>()
         {
             new FileSchema(new DropDownItem("Test01", "/resources/images/blau.png"),
                 null,
                 typeof(Test1),
                 null,
-                new RepoTest1()),
+                new RepoTest1(),
+                ApplicationNetworkModeType.LAN
+                ),
             new FileSchema(new DropDownItem("Test02", "/resources/images/gelb.png"),
                 null,
-                typeof(Test1),
+                typeof(Test2),
                 null,
-                new RepoTest2()),
+                new RepoTest2(),
+                ApplicationNetworkModeType.LOCAL
+                ),
             new FileSchema(new DropDownItem("Schema03", "/resources/images/gruen.png"),
                 typeof(Schema03Dto),
                 typeof(Schema03Anmeldungen),
                 Schema03Dto.Schema,
-                new RepoSchema03())
+                new RepoSchema03(),
+                ApplicationNetworkModeType.VLAN                
+                )
         };
 
         /// <summary>

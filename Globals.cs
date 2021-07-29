@@ -16,5 +16,19 @@ namespace Rki.ImportToSql
         public static readonly Brush COLOR_SUCCESS = Brushes.DarkGreen;
         public static readonly Brush COLOR_CHANGE = Brushes.Purple;
         public static readonly Brush COLOR_DANGER = Brushes.Red;
+
+        public static readonly ApplicationNetworkModeType ApplicationNetworkMode = ApplicationNetworkModeType._ALL;
     }
+
+    [Flags]
+    public enum ApplicationNetworkModeType
+    {
+        VLAN = 1,
+        LAN = 2,
+        LOCAL = 4,
+        _ALL = 7,
+        _RKI = 3
+    }
+
+    // TODO Logging to client
 }

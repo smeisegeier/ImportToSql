@@ -2,7 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Rki.ImportToSql"
+             xmlns:helper="clr-namespace:Rki.ImportToSql.Helper"
              Startup="ApplicationStartup">
     <Application.Resources>
+        <helper:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Application.Resources>
 </Application>

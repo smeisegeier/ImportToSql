@@ -8,6 +8,9 @@ using System.Windows.Data;
 
 namespace Rki.ImportToSql.Helper
 {
+	/// <summary>
+	/// Converter is not used here, instead there are 2 coupled properties in the vm (bool -> Visibility)
+	/// </summary>
     public class BoolToVisibilityConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -15,9 +18,9 @@ namespace Rki.ImportToSql.Helper
 			switch (value)
 			{
 				case true:
-					return Visibility.Hidden;
-				case false:
 					return Visibility.Visible;
+				case false:
+					return Visibility.Hidden;
 				default:
 					return Visibility.Hidden;
 			}
@@ -28,9 +31,9 @@ namespace Rki.ImportToSql.Helper
 			if (value is Visibility)
 			{
 				if ((Visibility)value == Visibility.Visible)
-					return false;
-				else
 					return true;
+				else
+					return false;
 			}
 			return null;
 		}

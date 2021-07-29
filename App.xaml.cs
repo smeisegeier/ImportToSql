@@ -3,6 +3,8 @@ using Rki.ImportToSql.Models.Domain;
 using Rki.ImportToSql.ViewModels;
 using Rki.ImportToSql.Views;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace Rki.ImportToSql
@@ -16,16 +18,20 @@ namespace Rki.ImportToSql
         {
             /* setup repo*/
 
-            try
+            FileSchema.ListOfAllFileSchemas.ToList().ForEach(x => 
             {
-                // correct approach: always try to ensure at startup. Connectivity should be checked later again for button - it could be on/off
-                // TODO ensure
-                //Test1.Repo.Database.EnsureCreated();
-            }
-            catch (Microsoft.Data.SqlClient.SqlException ex)
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo(string.Format("Server not present.{0}{1}", Environment.NewLine, ex.Message));
-            }
+                try
+                {
+                    // correct approach: always try to ensure at startup. Connectivity should be checked later again for button - it could be on/off
+                    x.Repository.Database.EnsureCreated();
+                }
+                catch (Microsoft.Data.SqlClient.SqlException ex)
+                {
+                    Helper.StaticHelper.MyMessageBoxNotificationInfo(string.Format("Server not present.{0}{1}", Environment.NewLine, ex.Message));
+                    return;
+                }
+            });
+
 
             //Test1.Repo.ItemAddList(Test1.GetDefaultValues());
 

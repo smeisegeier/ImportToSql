@@ -89,31 +89,22 @@ namespace Rki.ImportToSql.ViewModels
         }
         private bool _toggleIsEnabled = false;
 
+        /// <summary>
+        /// FontAwsome spinner.
+        /// TODO spinner animation
+        /// </summary>
         public bool IsUploading
         {
             get => _isUploading;
             set
             {
                 _isUploading = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsUploadingVisibility));
             }
         }
-        // HACK still buggy
-        private bool _isUploading = true;
+        private bool _isUploading = false;
 
-
-        //public Visibility IsUploading2
-        //{
-        //    get => _isUploading2;
-        //    set
-        //    {
-        //        _isUploading2 = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //private Visibility _isUploading2 = Visibility.Visible;
-
-        //public Visibility IsUploadingVisibility => IsUploading? Visibility.Visible : Visibility.Hidden;
+        public Visibility IsUploadingVisibility => IsUploading? Visibility.Visible : Visibility.Hidden;
 
         /* Messages area */
         public ObservableCollection<ListBoxItem> ListBoxItems { get; private set; } = new();
@@ -121,9 +112,6 @@ namespace Rki.ImportToSql.ViewModels
 
         /* Exit area*/
         public ICommand ExitCommand { get; private set; }
-
-        // TODO FontAwesome spinner 
-        // https://stackoverflow.com/questions/6359848/wpf-loading-spinner
 
         public MainWindowViewModel()
         {
@@ -134,7 +122,7 @@ namespace Rki.ImportToSql.ViewModels
 
 
             UploadCommand = new RelayCommand<object>(
-                 o => onUpload(csvToJsonFromFullPath(DropFilePathFull))
+                 o => onUpload()
                 );
             DropCommand = new RelayCommand<DragEventArgs>(grid_Drop);
 
@@ -148,6 +136,9 @@ namespace Rki.ImportToSql.ViewModels
 
             addListBoxItem("App Started", Globals.COLOR_SUCCESS, "<System>");
         }
+
+        public string VersionInfo => "Network: " + Globals.ApplicationNetworkMode.ToString();
+
 
         // https://stackoverflow.com/questions/6205472/mvvm-passing-eventargs-as-command-parameter
         private void grid_Drop(DragEventArgs e)
@@ -182,16 +173,24 @@ namespace Rki.ImportToSql.ViewModels
         /// <summary>
         /// You cannot use generic / dynamic lists here, finally in the repo methods the type must be known at compiletime.
         /// </summary>
-        private void onUpload(string json)
+        private void onUpload()
         {
             // set spinner
             IsUploading = true;
-            //IsUploading2 = Visibility.Visible;
+            
 
+            /* get json from csv */
+            string json = csvToJsonFromFullPath(DropFilePathFull);
+
+            /* get class from json */
             FileSchema selectedFileSchema = FileSchema.GetFileSchemaByDropDownItem(SelectedDropDownItem);
             JSchema jsonSchema = selectedFileSchema?.JsonSchema;
             // parse json -> array
             JArray jsonArray = JArray.Parse(json);
+
+
+            // spinner off
+            IsUploading = false;
 
             #region Schema03
             // manual?
@@ -253,13 +252,7 @@ namespace Rki.ImportToSql.ViewModels
         /// <param name="fileSchema"></param>
         private void processUpload<T>(IList<T> list, FileSchema fileSchema) where T : BaseModel
         {
-            IsUploading = false;
-            //IsUploading2 = Visibility.Hidden;
-
-            // no entries?
-            if (!list.Any())
-                return;
-
+            /* prepare vars */
             var repo = fileSchema.Repository;
             string messageHeader = string.Format("File is of type: {0}\nItems found in target: {1}\nTargetPath: {2}\n\n",
                 typeof(T).Name,
@@ -267,7 +260,12 @@ namespace Rki.ImportToSql.ViewModels
                 repo.TargetPathInfo
                 );
 
-            /* Duplicates */
+
+            // no entries?
+            if (!list.Any())
+                return;
+
+            // duplicates?
             if (repo.ItemsExist(list))
             {
                 StaticHelper.MyMessageBoxNotification(messageHeader + "--> Duplicate!", MessageBoxImage.Error);
@@ -275,6 +273,7 @@ namespace Rki.ImportToSql.ViewModels
                 return;
             }
 
+            // cancel?
             if (!StaticHelper.MyMessageBoxNotificationYesNo(messageHeader + "--> Import these?"))
             {
                 return;
@@ -288,9 +287,6 @@ namespace Rki.ImportToSql.ViewModels
             else
                 addListBoxItem(string.Format("+{0} items of <{1}> to {2}", count, typeof(T).Name, repo.TargetPathInfo),
                     Globals.COLOR_CHANGE);
-
-
-            //StaticHelper.MyMessageBoxNotificationInfo(BaseModel.PrintList(repo.ItemsGetAll<T>()));
         }
 
         private void addListBoxItem(string text, Brush foreground = null, string fileName = null)
