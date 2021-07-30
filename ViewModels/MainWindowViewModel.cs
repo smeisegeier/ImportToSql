@@ -24,6 +24,9 @@ namespace Rki.ImportToSql.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        private static NLog.Logger _logger= NLog.LogManager.GetCurrentClassLogger();
+
+
         /* DropZone area*/
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
 
@@ -82,7 +85,6 @@ namespace Rki.ImportToSql.ViewModels
             private set
             {
                 _toggleIsEnabled = value;
-                //OnPropertyChanged();
                 OnPropertyChanged(nameof(DropDownIsEnabled));
                 OnPropertyChanged(nameof(UploadIsEnabled));
             }
@@ -115,6 +117,13 @@ namespace Rki.ImportToSql.ViewModels
 
         public MainWindowViewModel()
         {
+            setupCommands();
+
+            addListBoxItem("App started", Globals.COLOR_SUCCESS, "<System>");
+        }
+
+        private void setupCommands()
+        {
             ExitCommand = new RelayCommand<object>(o =>
             {
                 App.Current.Shutdown();
@@ -132,9 +141,8 @@ namespace Rki.ImportToSql.ViewModels
                 // also remove item from dropdown
                 SelectedDropDownItem = null;
             });
-            UncheckedCommand = new RelayCommand<RoutedEventArgs>(o => { ToggleIsEnabled = false; });
 
-            addListBoxItem("App Started", Globals.COLOR_SUCCESS, "<System>");
+            UncheckedCommand = new RelayCommand<RoutedEventArgs>(o => { ToggleIsEnabled = false; });
         }
 
         public string VersionInfo => "Network: " + Globals.ApplicationNetworkMode.ToString();
@@ -252,6 +260,17 @@ namespace Rki.ImportToSql.ViewModels
         /// <param name="fileSchema"></param>
         private void processUpload<T>(IList<T> list, FileSchema fileSchema) where T : BaseModel
         {
+            // if ListType is known but fileSchema null, then the schema is not included in current network
+            if (fileSchema is null)
+            {
+                StaticHelper.MyMessageBoxNotification("Target is not in current network", MessageBoxImage.Warning);
+                return;
+            }
+
+            // no entries?
+            if (!list.Any())
+                return;
+
             /* prepare vars */
             var repo = fileSchema.Repository;
             string messageHeader = string.Format("File is of type: {0}\nItems found in target: {1}\nTargetPath: {2}\n\n",
@@ -259,11 +278,6 @@ namespace Rki.ImportToSql.ViewModels
                 repo.ItemsGetCount<T>(),
                 repo.TargetPathInfo
                 );
-
-
-            // no entries?
-            if (!list.Any())
-                return;
 
             // duplicates?
             if (repo.ItemsExist(list))
@@ -282,16 +296,30 @@ namespace Rki.ImportToSql.ViewModels
 
             /* Add List to repo */
             int count = repo.ItemAddList(list);
+
+            /* documentation */
             if (count == 0)
                 addListBoxItem("No items were added", Globals.COLOR_DANGER);
             else
-                addListBoxItem(string.Format("+{0} items of <{1}> to {2}", count, typeof(T).Name, repo.TargetPathInfo),
-                    Globals.COLOR_CHANGE);
+            {
+                string text = string.Format("+{0} items of <{1}> to {2}", count, typeof(T).Name, repo.TargetPathInfo);
+                _logger.Info(addListBoxItem(text, Globals.COLOR_CHANGE));
+            }
         }
 
-        private void addListBoxItem(string text, Brush foreground = null, string fileName = null)
+
+        /// <summary>
+        /// Adds item to ListBox in message area
+        /// </summary>
+        /// <param name="text">message text</param>
+        /// <param name="foreground">predefined colors</param>
+        /// <param name="fileName">short filename</param>
+        /// <returns>text to piped to logger</returns>
+        private string addListBoxItem(string text, Brush foreground = null, string fileName = null)
         {
-            ListBoxItems.Add(new ListBoxItem(text, foreground ?? Brushes.Black, fileName ?? Path.GetFileName(DropFilePathFull)));
+            fileName = fileName ?? Path.GetFileName(DropFilePathFull);
+            ListBoxItems.Add(new ListBoxItem(text, foreground ?? Brushes.Black, fileName));
+            return string.Format("{0} -> {1}", fileName, text);
         }
 
         // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp

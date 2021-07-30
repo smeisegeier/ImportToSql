@@ -14,10 +14,13 @@ namespace Rki.ImportToSql
     /// </summary>
     public partial class App : Application
     {
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         public void ApplicationStartup(object sender, StartupEventArgs e)
         {
-            /* setup repo*/
+            _logger.Info("App started");
 
+            /* setup repo*/
             FileSchema.ListOfAllFileSchemas.ToList().ForEach(x => 
             {
                 try
@@ -27,7 +30,9 @@ namespace Rki.ImportToSql
                 }
                 catch (Microsoft.Data.SqlClient.SqlException ex)
                 {
-                    Helper.StaticHelper.MyMessageBoxNotificationInfo(string.Format("Server not present.{0}{1}", Environment.NewLine, ex.Message));
+                    var msg = string.Format("Server not present.{0}{1}", Environment.NewLine, ex.Message);
+                    Helper.StaticHelper.MyMessageBoxNotificationInfo(msg);
+                    _logger.Error(msg);
                     return;
                 }
             });

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rki.ImportToSql.Services;
 
 namespace Rki.ImportToSql.Migrations
 {
     [DbContext(typeof(RepoTest2))]
-    partial class RepoTest2ModelSnapshot : ModelSnapshot
+    [Migration("20210730081851_ImportTime")]
+    partial class ImportTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
