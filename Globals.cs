@@ -31,6 +31,5 @@ namespace Rki.ImportToSql
     }
 
     // TODO sql logging
-    // TODO overwrite
     // TODO multistage messages (import -> write)
 }

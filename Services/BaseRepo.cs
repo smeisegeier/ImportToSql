@@ -16,9 +16,9 @@ namespace Rki.ImportToSql.Services
     /// 2a) Add a Repo to that class under /services
     /// 2b) In that repo, have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties. 
     /// 2c) Tweak connection strings, paths etc. to fit to each other
-    /// 2d) (?) Register repo in packetmanager: Add-Migrations Schema03 -Context RepoSchema03
-    /// 3) Add a dto class that only has the transfered columns
-    /// 4) Register a new FileSchema, using these classes
+    /// 2d) Register repo in packetmanager: Add-Migrations Schema03 -Context RepoSchema03
+    /// 3) Add a dto class that only has the transfered columns (no int columns!)
+    /// 4) Register a new FileSchema, using all these classes
     /// 5) complete selector in viewModel (onUpload)
     /// </summary>
     public abstract class BaseRepo : DbContext
@@ -41,11 +41,31 @@ namespace Rki.ImportToSql.Services
 
         public T ItemGetById<T>(int id) where T : BaseModel => 
             ItemsGetAll<T>().FirstOrDefault(x=>x.Id == id);
-        
+
+        public T ItemGetByHash<T>(T obj) where T : BaseModel => ItemsGetAll<T>().FirstOrDefault(x => x.Hash == obj.Hash);
+
         public int ItemAddList<T>(IEnumerable<T> list) where T : BaseModel
         {
             Set<T>().AddRange(list);
             return SaveChanges();
+        }
+
+        public int ItemDelete<T>(T obj) where T : BaseModel
+        {
+            if (obj is not null)
+                Set<T>().Remove(obj);
+            return SaveChanges();
+        }
+
+        public int ItemDeleteDuplicates<T>(IEnumerable<T> list) where T : BaseModel
+        {
+            int count = 0;
+            // delete duplicates
+            list.ToList().ForEach(x =>
+            {
+                count += ItemDelete(ItemGetByHash(x));
+            });
+            return count;
         }
     }
 }

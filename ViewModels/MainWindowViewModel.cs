@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using Rki.ImportToSql.Models.Domain;
 using System.Collections;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Rki.ImportToSql.ViewModels
 {
@@ -185,7 +186,6 @@ namespace Rki.ImportToSql.ViewModels
         {
             // set spinner
             IsUploading = true;
-            
 
             /* get json from csv */
             string json = csvToJsonFromFullPath(DropFilePathFull);
@@ -282,15 +282,29 @@ namespace Rki.ImportToSql.ViewModels
             // duplicates?
             if (repo.ItemsExist(list))
             {
-                StaticHelper.MyMessageBoxNotification(messageHeader + "--> Duplicate!", MessageBoxImage.Error);
                 addListBoxItem("Duplicate items", Globals.COLOR_DANGER);
-                return;
-            }
 
-            // cancel?
-            if (!StaticHelper.MyMessageBoxNotificationYesNo(messageHeader + "--> Import these?"))
+                if (StaticHelper.MyMessageBoxNotificationYesNo(messageHeader + "Duplicates! Overwrite Target?"))
+                {
+                    // logging <- message <- action
+                    _logger.Info(addListBoxItem(string.Format(
+                        "{0} items deleted",repo.ItemDeleteDuplicates(list)),
+                        Globals.COLOR_CHANGE)
+                        );
+                }
+                else
+                {
+                    // quit on duplicates
+                    return;
+                }
+            }
+            else
             {
-                return;
+                // cancel?
+                if (!StaticHelper.MyMessageBoxNotificationYesNo(messageHeader + "--> Import these?"))
+                {
+                    return;
+                }
             }
 
 
