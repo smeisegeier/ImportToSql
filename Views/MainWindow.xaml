@@ -12,8 +12,15 @@
         Title="Import this!" Height="800" Width="600">
     <Grid>
         <DockPanel>
+            <StackPanel Margin="10,10,10,0" 
+                        DockPanel.Dock="Top">
+                <DockPanel >
+                    <Button Content="Open doc" Command="{Binding CommandOpenDoc}"/>
+                </DockPanel>
+            </StackPanel>
             <!--Dropzone-->
-            <StackPanel DockPanel.Dock="Top">
+            <StackPanel Margin="10,10,10,0"
+                        DockPanel.Dock="Top">
                 <Border BorderBrush="Gray" BorderThickness="1">
                     <Image Source="/Resources/Images/Drag_csv.png"
                            AllowDrop="True"

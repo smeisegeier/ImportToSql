@@ -18,6 +18,7 @@ namespace Rki.ImportToSql.Models.Dto
         public DateTime ModifiedAt { get; set; }
         public string Kommentar { get; set; }
 
+        // TODO move to register
         public static JSchema Schema { get; } = new JSchemaGenerator().Generate(typeof(List<Schema03Dto>));
     }
 }

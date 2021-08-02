@@ -16,6 +16,7 @@ namespace Rki.ImportToSql
         public static readonly Brush COLOR_SUCCESS = Brushes.DarkGreen;
         public static readonly Brush COLOR_CHANGE = Brushes.Purple;
         public static readonly Brush COLOR_DANGER = Brushes.Red;
+        public static readonly string URL_USERDOC = "https://www.rki.com";
 
         public static readonly ApplicationNetworkModeType ApplicationNetworkMode = ApplicationNetworkModeType._ALL;
     }
@@ -33,5 +34,5 @@ namespace Rki.ImportToSql
     // TODO sql logging
     // TODO multistage messages (import -> write)
     // TODO azure doc
-    // TODO build schemas
+    // TODO [InterfaceDb].[COALA].[GS_Prozessdaten]
 }

@@ -40,7 +40,7 @@ namespace Rki.ImportToSql.Models
 
         private static IEnumerable<FileSchema> _listOfAllFileSchemas = new List<FileSchema>()
         {
-            new FileSchema(new DropDownItem("Test01", "/resources/images/blau.png"),
+            new FileSchema(new DropDownItem("Test01", "/resources/images/grau.png"),
                 null,
                 typeof(Test1),
                 null,
@@ -60,6 +60,13 @@ namespace Rki.ImportToSql.Models
                 Schema03Dto.Schema,
                 new RepoSchema03(),
                 ApplicationNetworkModeType.VLAN                
+                ),
+            new FileSchema(new DropDownItem("COALA_Prozessdaten", "/resources/images/gelb.png"),
+                typeof(Schema03Dto),
+                typeof(Schema03Anmeldungen),
+                Schema03Dto.Schema,
+                new InterfaceDbContext(),
+                ApplicationNetworkModeType.LAN
                 )
         };
 

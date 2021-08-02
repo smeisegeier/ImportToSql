@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Rki.ImportToSql.Models.Domain
 {
-    public partial class Schema03Anmeldungen : BaseModel
+    public class Schema03Anmeldungen : BaseModel
     {
         public string Dea_Id { get; set; }
         public string Plz { get; set; }
@@ -22,7 +22,7 @@ namespace Rki.ImportToSql.Models.Domain
         public override string Hash => Dea_Id;
 
         /// <summary>
-        /// Mapping domain <-> dto
+        /// Mapping domain <- dto
         /// </summary>
         /// <param name="input">dto</param>
         public static implicit operator Schema03Anmeldungen(Schema03Dto input)

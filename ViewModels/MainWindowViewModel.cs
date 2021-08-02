@@ -27,6 +27,7 @@ namespace Rki.ImportToSql.ViewModels
     {
         private static NLog.Logger _logger= NLog.LogManager.GetCurrentClassLogger();
 
+        public ICommand CommandOpenDoc { get; set; }
 
         /* DropZone area*/
         public RelayCommand<DragEventArgs> DropCommand { get; private set; }
@@ -144,6 +145,7 @@ namespace Rki.ImportToSql.ViewModels
             });
 
             UncheckedCommand = new RelayCommand<RoutedEventArgs>(o => { ToggleIsEnabled = false; });
+            CommandOpenDoc = new RelayCommand<object>(o =>{StaticHelper.OpenUrl(Globals.URL_USERDOC);});
         }
 
         public string VersionInfo => "Network: " + Globals.ApplicationNetworkMode.ToString();
