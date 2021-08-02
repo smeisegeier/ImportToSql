@@ -32,4 +32,6 @@ namespace Rki.ImportToSql
 
     // TODO sql logging
     // TODO multistage messages (import -> write)
+    // TODO azure doc
+    // TODO build schemas
 }
