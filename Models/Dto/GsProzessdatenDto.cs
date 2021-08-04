@@ -9,37 +9,36 @@ namespace Rki.ImportToSql.Models.Dto
 {
     public class GsProzessdatenDto
     {
-        public string Anr { get; set; }
+        public string ANR { get; set; }
         public string KitaId { get; set; }
         public string HaushaltId { get; set; }
         public string Geburtsmonat { get; set; }
         public string Geburtsjahr { get; set; }
         public string Geschlecht { get; set; }
-        public string Fb3Stat { get; set; }
-        public string Fb7Stat { get; set; }
+        public string FB3_stat { get; set; }
+        public string FB7_stat { get; set; }
         public string Einwilligung { get; set; }
-        public string Mna { get; set; }
+        public string MNA { get; set; }
         public string Speichel { get; set; }
         public string Blut { get; set; }
-        public string GaNcoV { get; set; }
+        public string GA_NCoV { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? ModifiedOn { get; set; }
-        public DateTime? Hb1Datum { get; set; }
-        public DateTime? Hb2Datum { get; set; }
-        public bool? Hb1Status { get; set; }
-        public bool? Hb2Status { get; set; }
+        public DateTime? HB1_Datum { get; set; }
+        public DateTime? HB2_Datum { get; set; }
+        public bool? HB1_Status { get; set; }
+        public bool? HB2_Status { get; set; }
         public string Ort { get; set; }
         public string Ortsteil { get; set; }
-        public string Plz { get; set; }
+        public string PLZ { get; set; }
         public string FarbeId { get; set; }
         public string Rolle { get; set; }
-        public DateTime? Fb3Datum { get; set; }
-        public DateTime? Fb7Datum { get; set; }
+        public DateTime? FB3_Datum { get; set; }
+        public DateTime? FB7_Datum { get; set; }
         public bool IstIndexperson { get; set; }
         public bool IstAnkerperson { get; set; }
         public string Symptomtagebuch { get; set; }
-        public string Qna { get; set; }
+        public string QNA { get; set; }
 
-        public static JSchema Schema { get; } = new JSchemaGenerator().Generate(typeof(List<GsProzessdatenDto>));
     }
 }

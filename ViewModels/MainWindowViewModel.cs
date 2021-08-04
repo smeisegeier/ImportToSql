@@ -20,6 +20,7 @@ using Rki.ImportToSql.Models.Domain;
 using System.Collections;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
+using Rki.ImportToSql.Models.Dto;
 
 namespace Rki.ImportToSql.ViewModels
 {
@@ -250,16 +251,34 @@ namespace Rki.ImportToSql.ViewModels
             }
             #endregion
 
+            #region COALA_Prozessdaten
+            // manual?
+            //if (selectedFileSchema?.TypeDomainSchema == typeof(GsProzessdaten))
+            //{
+            //    // then schema must be present
+            //    if (!checkJsonObjects(jsonSchema, jsonArray))
+            //        return;
+            //}
+            // auto
+            if (!json.ToJsonTryParse(out IList<GsProzessdatenDto> list04))
+            {
+                List<GsProzessdaten> domainList04 = new();
+                foreach (var x in list04)
+                {
+                    GsProzessdaten gsProzessdaten = x;
+                    domainList04.Add(gsProzessdaten);
+                }
+                //list04.ForEach(x => { domainList04.Add(x); });
+                processUpload(domainList04, FileSchema.GetFileSchemaByDomainType(typeof(GsProzessdaten))); ;
+                return;
+            }
+            #endregion
+
+
             StaticHelper.MyMessageBoxNotification("Unknown Type or structure violation.", MessageBoxImage.Error);
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="fileSchema"></param>
         private void processUpload<T>(IList<T> list, FileSchema fileSchema) where T : BaseModel
         {
             // if ListType is known but fileSchema null, then the schema is not included in current network

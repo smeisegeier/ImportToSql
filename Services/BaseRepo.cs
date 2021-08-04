@@ -15,7 +15,7 @@ namespace Rki.ImportToSql.Services
     /// 1) Add new domain class w/ properties in /models (note: give a meaningful hash, int Id is preset)
     /// 2) This needs a DbContext for the Target Database, if not already present
     /// 2a) when using db-first approach: packetmanager:
-    /// Scaffold-DbContext "Server=abt2sqldev01;Database=InterfaceDb;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+    /// Scaffold-DbContext "Server=abt2sqldev01;Database=InterfaceDb;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Temp -UseDatabaseNames
     /// 2b) when using code-first: packetmanager: 
     /// Add-Migrations Schema03 -Context RepoSchema03
     /// 3a) Add Repo to that class under /services

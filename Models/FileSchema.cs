@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
 using Rki.ImportToSql.Models.Domain;
 using Rki.ImportToSql.Models.Dto;
 using Rki.ImportToSql.Services;
@@ -57,14 +58,14 @@ namespace Rki.ImportToSql.Models
             new FileSchema(new DropDownItem("Schema03", "/resources/images/gruen.png"),
                 typeof(Schema03Dto),
                 typeof(Schema03Anmeldungen),
-                Schema03Dto.Schema,
+                new JSchemaGenerator().Generate(typeof(List<Schema03Dto>)),
                 new RepoSchema03(),
                 ApplicationNetworkModeType.VLAN                
                 ),
             new FileSchema(new DropDownItem("COALA_Prozessdaten", "/resources/images/gelb.png"),
-                typeof(Schema03Dto),
-                typeof(Schema03Anmeldungen),
-                Schema03Dto.Schema,
+                typeof(GsProzessdatenDto),
+                typeof(GsProzessdaten),
+                new JSchemaGenerator().Generate(typeof(List<GsProzessdatenDto>)),
                 new InterfaceDbContext(),
                 ApplicationNetworkModeType.LAN
                 )
