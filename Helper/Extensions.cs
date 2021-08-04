@@ -12,7 +12,7 @@ namespace Rki.ImportToSql.Helper
     {
 
 
-        // TODO success not work
+        // TODO success not really working on deserializing
 
         /// <summary>
         /// Parses a json string into an object of given Type. 

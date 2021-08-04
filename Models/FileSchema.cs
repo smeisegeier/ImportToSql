@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
-using Rki.ImportToSql.Models.Domain;
+﻿using Rki.ImportToSql.Models.Domain;
 using Rki.ImportToSql.Services;
 using Rki.ImportToSql.ViewModels;
 using System;

@@ -1,13 +1,8 @@
-﻿using ChoETL;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Linq;
-using Rki.ImportToSql.Helper;
+﻿using Rki.ImportToSql.Helper;
 using Rki.ImportToSql.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -157,23 +152,6 @@ namespace Rki.ImportToSql.ViewModels
             }
         }
 
-        private bool checkJsonObjects(JSchema jsonSchema, JArray jsonArray)
-        {
-            if (jsonSchema == null)
-            {
-                StaticHelper.MyMessageBoxNotification("Schema Error", MessageBoxImage.Error);
-                return false;
-            }
-            // then we have a json array
-            if (!jsonArray.IsValid(jsonSchema, out IList<string> messages))
-            {
-                string text = string.Join(Environment.NewLine, messages);
-                StaticHelper.MyMessageBoxNotification(text, MessageBoxImage.Error);
-                addListBoxItem(text, Globals.COLOR_DANGER);
-                return false;
-            }
-            return true;
-        }
 
         /// <summary>
         /// You cannot use generic / dynamic lists here, finally in the repo methods the type must be known at compiletime.
@@ -299,31 +277,6 @@ namespace Rki.ImportToSql.ViewModels
             fileName = fileName ?? Path.GetFileName(DropFilePathFull);
             ListBoxItems.Add(new ListBoxItem(text, foreground ?? Brushes.Black, fileName));
             return string.Format("{0} -> {1}", fileName, text);
-        }
-
-        // https://stackoverflow.com/questions/10824165/converting-a-csv-file-to-json-using-c-sharp
-        // https://www.codeproject.com/Articles/1145337/Cinchoo-ETL-CSV-Reader
-        private string csvToJsonFromContent(string content)
-        {
-
-            StringBuilder sb = new StringBuilder();
-            using (var p = ChoCSVReader.LoadText(content).WithFirstLineHeader())
-            {
-                using (var w = new ChoJSONWriter(sb))
-                    w.Write(p);
-            }
-            return sb.ToString();
-        }
-
-        private string csvToJsonFromFullPath(string fullPath)
-        {
-            StringBuilder sb = new StringBuilder();
-            using (var p = new ChoCSVReader(fullPath).WithFirstLineHeader())
-            {
-                using (var w = new ChoJSONWriter(sb))
-                    w.Write(p);
-            }
-            return sb.ToString();
         }
     }
 }
