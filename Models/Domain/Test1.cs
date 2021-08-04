@@ -1,4 +1,5 @@
-﻿using Rki.ImportToSql.Services;
+﻿using CsvHelper.Configuration;
+using Rki.ImportToSql.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Rki.ImportToSql.Models.Domain
 
         public override string Hash => City + Country;
 
+        public Test1() { }
 
         public Test1(string city, string country)
         {
@@ -28,16 +30,16 @@ namespace Rki.ImportToSql.Models.Domain
             new Test1("ny","amercas"),
             new Test1("berlin","germ")
         };
-
-
-        /* Experimental, requires NJsonSchema*/
-        //public static JsonSchema Schema = JsonSchema.FromType<Test1>();
-        //public static string SchemaString = @"{
-        //    'Id': {'type': 'string'},
-        //    'City': {'type': 'string'},
-        //    'Country': {'type': 'string'}
-        //    }";
-
-
     }
+
+
+    public class Test1Map : ClassMap<Test1>
+    {
+        public Test1Map()
+        {
+            Map(m => m.City);
+            Map(m => m.Country);
+        }
+    }
+
 }

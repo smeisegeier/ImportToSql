@@ -1,8 +1,7 @@
-﻿using Rki.ImportToSql.Models.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
+//#nullable disable
 
 namespace Rki.ImportToSql.Models.Domain
 {
@@ -41,134 +40,7 @@ namespace Rki.ImportToSql.Models.Domain
 
         public override string Hash => string.Format("{0}_{1}_{2}",ANR,KitaId,HaushaltId);
 
-        /// <summary>
-        /// Mapping domain <- dto
-        /// </summary>
-        /// <param name="i">dto</param>
-        public static implicit operator GsProzessdaten(GsProzessdatenDto i)
-        {
-            // TODO bug: tryParse fails on nullable props
-            if (!int.TryParse(i.ANR, out int anr))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.KitaId, out int kitaId))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.HaushaltId, out int haushaltId))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Geburtsmonat, out int gebmon))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Geburtsjahr, out int gebjahr))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Geschlecht, out int geschlecht))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.FB3_stat, out int fb3Stat))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.FB7_stat, out int fb7Stat))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Einwilligung, out int einwilligung))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.MNA, out int mna))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Speichel, out int speichel))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Blut, out int blut))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.GA_NCoV, out int gancov))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.FarbeId, out int farbeId))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Rolle, out int rolle))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.Symptomtagebuch, out int symptom))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
-            if (!int.TryParse(i.QNA, out int qna))
-            {
-                Helper.StaticHelper.MyMessageBoxNotificationInfo("int vs string xD");
-                return null;
-            }
 
-
-            return new GsProzessdaten()
-            {
-                ANR = anr,
-                Blut = blut,
-                CreatedAt = i.CreatedAt,
-                Einwilligung = einwilligung,
-                FarbeId = farbeId,
-                FB3_Datum = i.FB3_Datum,
-                FB3_stat = fb3Stat,
-                FB7_Datum = i.FB7_Datum,
-                FB7_stat = fb7Stat,
-                GA_NCoV = gancov,
-                Geburtsjahr = gebjahr,
-                Geburtsmonat = gebmon,
-                Geschlecht = geschlecht,
-                HaushaltId = haushaltId,
-                HB1_Datum = i.HB1_Datum,
-                HB1_Status = i.HB1_Status,
-                HB2_Datum = i.HB2_Datum,
-                HB2_Status = i.HB2_Status,
-                IstAnkerperson = i.IstAnkerperson,
-                IstIndexperson = i.IstIndexperson,
-                KitaId = kitaId,
-                MNA = mna,
-                ModifiedOn = i.ModifiedOn,
-                Ort = i.Ort,
-                Ortsteil = i.Ortsteil,
-                PLZ = i.PLZ,
-                QNA = qna,
-                Rolle = rolle,
-                Speichel = speichel,
-                Symptomtagebuch = symptom
-            };
-        }
 
     }
 }

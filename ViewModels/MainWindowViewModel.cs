@@ -3,24 +3,17 @@ using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Linq;
 using Rki.ImportToSql.Helper;
 using Rki.ImportToSql.Models;
-using Rki.ImportToSql.Services;
-using Rki.ImportToSql.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Text.RegularExpressions;
 using Rki.ImportToSql.Models.Domain;
-using System.Collections;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
-using Rki.ImportToSql.Models.Dto;
+
 
 namespace Rki.ImportToSql.ViewModels
 {
@@ -187,97 +180,48 @@ namespace Rki.ImportToSql.ViewModels
         /// </summary>
         private void onUpload()
         {
-            // set spinner
-            IsUploading = true;
-
-            /* get json from csv */
-            string json = csvToJsonFromFullPath(DropFilePathFull);
-
-            /* get class from json */
+            /* get class type from selection */
             FileSchema selectedFileSchema = FileSchema.GetFileSchemaByDropDownItem(SelectedDropDownItem);
-            JSchema jsonSchema = selectedFileSchema?.JsonSchema;
-            // parse json -> array
-            JArray jsonArray = JArray.Parse(json);
-
-
-            // spinner off
-            IsUploading = false;
-
-            #region Schema03
-            // manual?
-            if (selectedFileSchema?.TypeDomainSchema == typeof(Schema03Anmeldungen))
-            {
-                // then schema must be present
-                if (!checkJsonObjects(jsonSchema, jsonArray))
-                    return;
-            }
-            // auto
-            if (json.ToJsonTryParse(out IList<Schema03Anmeldungen> list03))
-            {
-                processUpload(list03, FileSchema.GetFileSchemaByDomainType(typeof(Schema03Anmeldungen)));
-                return;
-            }
-            #endregion
+            /* fetch header, then class */
+            var csvHeader = StaticHelper.GetHeaderFromCsv(DropFilePathFull);
 
             #region Schema01
-            // manual?
-            if (selectedFileSchema?.TypeDomainSchema == typeof(Test1))
+            // manual || (auto detected + no schema selected)
+            if (selectedFileSchema?.TypeDomainSchema == typeof(Test1)
+                || (StaticHelper.GetClassProperties<Test1>().HasSameElements(csvHeader)
+                    && selectedFileSchema?.TypeDomainSchema is null)
+                )
             {
-                // then schema must be present
-                if (!checkJsonObjects(jsonSchema, jsonArray))
-                    return;
-            }
-            // auto
-            if (json.ToJsonTryParse(out IList<Test1> list01))
-            {
-                processUpload(list01, FileSchema.GetFileSchemaByDomainType(typeof(Test1)));
+                // user => ok?
+                if (StaticHelper.GetClassFromCsv<Test1, Test1Map>(DropFilePathFull, out List<Test1> list1))
+                    processUpload(list1, FileSchema.GetFileSchemaByDomainType(typeof(Test1)));
                 return;
             }
             #endregion
 
             #region Schema02
-            // manual?
-            if (selectedFileSchema?.TypeDomainSchema == typeof(Test2))
+            // manual || (auto detected + no schema selected)
+            if (selectedFileSchema?.TypeDomainSchema == typeof(Test2)
+                || (StaticHelper.GetClassProperties<Test2>().HasSameElements(csvHeader) 
+                    && selectedFileSchema?.TypeDomainSchema is null)
+                )
             {
-                // then schema must be present
-                if (!checkJsonObjects(jsonSchema, jsonArray))
-                    return;
-            }
-            // auto
-            if (json.ToJsonTryParse(out IList<Test2> list02))
-            {
-                processUpload(list02, FileSchema.GetFileSchemaByDomainType(typeof(Test2)));
+                // user => ok?
+                if (StaticHelper.GetClassFromCsv<Test2, Test2Map>(DropFilePathFull, out List<Test2> list2))
+                    processUpload(list2, FileSchema.GetFileSchemaByDomainType(typeof(Test2)));
                 return;
             }
             #endregion
 
+
+
             #region COALA_Prozessdaten
-            // manual?
-            //if (selectedFileSchema?.TypeDomainSchema == typeof(GsProzessdaten))
-            //{
-            //    // then schema must be present
-            //    if (!checkJsonObjects(jsonSchema, jsonArray))
-            //        return;
-            //}
-            // auto
-            if (!json.ToJsonTryParse(out IList<GsProzessdatenDto> list04))
-            {
-                List<GsProzessdaten> domainList04 = new();
-                foreach (var x in list04)
-                {
-                    GsProzessdaten gsProzessdaten = x;
-                    domainList04.Add(gsProzessdaten);
-                }
-                //list04.ForEach(x => { domainList04.Add(x); });
-                processUpload(domainList04, FileSchema.GetFileSchemaByDomainType(typeof(GsProzessdaten))); ;
-                return;
-            }
+
             #endregion
 
 
             StaticHelper.MyMessageBoxNotification("Unknown Type or structure violation.", MessageBoxImage.Error);
         }
-
 
         private void processUpload<T>(IList<T> list, FileSchema fileSchema) where T : BaseModel
         {

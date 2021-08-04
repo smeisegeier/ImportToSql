@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rki.ImportToSql.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ using System.Threading.Tasks;
 namespace Rki.ImportToSql.Models.Domain
 {
     // https://www.entityframeworktutorial.net/efcore/create-model-for-existing-database-in-ef-core.aspx
+
+    /// <summary>
+    /// Base Model contains some maintenance properties
+    /// </summary>
     public abstract class BaseModel
     {
         /// <summary>
@@ -24,5 +29,7 @@ namespace Rki.ImportToSql.Models.Domain
 
         public static string PrintList<T>(List<T> list) where T : BaseModel =>
             string.Join(Environment.NewLine, list.Select(x => x.ToString()));
+
+        public List<string> GetClassProperties() => StaticHelper.GetClassProperties(this.GetType());
     }
 }

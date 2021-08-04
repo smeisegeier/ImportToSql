@@ -21,8 +21,7 @@ namespace Rki.ImportToSql.Services
     /// 3a) Add Repo to that class under /services
     /// 3b) In that repo, have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties. 
     /// 3c) Tweak connection strings, paths etc. to fit to each other
-    /// 4) Add a dto class that only has the transfered columns (no int columns!)
-    /// 4a) write a mapper dto -> domain (static implicit operator)
+    /// 4) Add a csvhelper mapping class for domain classes
     /// 5) Register a new FileSchema, using all these classes
     /// 6) complete selector in viewModel (onUpload)
     /// </summary>

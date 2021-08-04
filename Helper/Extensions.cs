@@ -36,6 +36,24 @@ namespace Rki.ImportToSql.Helper
             return success;
         }
 
-        public static dynamic ToJsonDynamicType(this string json) => JsonConvert.DeserializeObject<dynamic>(json);
+        /// <summary>
+        /// Checks if two string lists have same elements (order ignored)
+        /// </summary>
+        /// <param name="this">list1</param>
+        /// <param name="listToCompare">list2</param>
+        /// <returns>true | false</returns>
+        public static bool HasSameElements(this List<string> @this, List<string> listToCompare)
+        {
+            bool result = true;
+            @this.ForEach(x =>
+            {
+                // ignore any capital spelling
+                if (!listToCompare.Any(y => y.ToLower() == x.ToLower()))
+                    result = false;
+            });
+            return result;
+        }
+
+        //public static dynamic ToJsonDynamicType(this string json) => JsonConvert.DeserializeObject<dynamic>(json);
     }
 }

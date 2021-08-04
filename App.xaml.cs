@@ -21,7 +21,18 @@ namespace Rki.ImportToSql
             _logger.Info("App started");
 
             /* setup repo*/
-            FileSchema.ListOfAllFileSchemas.ToList().ForEach(x => 
+            //ensureAllRepositories();
+
+            //Test1.Repo.ItemAddList(Test1.GetDefaultValues());
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.DataContext = new MainWindowViewModel();
+            mainWindow.Show();
+        }
+
+        private static void ensureAllRepositories()
+        {
+            FileSchema.ListOfAllFileSchemas.ToList().ForEach(x =>
             {
                 try
                 {
@@ -36,13 +47,6 @@ namespace Rki.ImportToSql
                     return;
                 }
             });
-
-
-            //Test1.Repo.ItemAddList(Test1.GetDefaultValues());
-
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.DataContext = new MainWindowViewModel();
-            mainWindow.Show();
         }
     }
 }

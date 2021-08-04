@@ -16,7 +16,7 @@ namespace Rki.ImportToSql
         public static readonly Brush COLOR_SUCCESS = Brushes.DarkGreen;
         public static readonly Brush COLOR_CHANGE = Brushes.Purple;
         public static readonly Brush COLOR_DANGER = Brushes.Red;
-        public static readonly string URL_USERDOC = "https://www.rki.com";
+        public static readonly string URL_USERDOC = "https://www.rki.de";
 
         public static readonly ApplicationNetworkModeType ApplicationNetworkMode = ApplicationNetworkModeType._ALL;
     }
