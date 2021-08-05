@@ -9,11 +9,18 @@ using System.Threading.Tasks;
 
 namespace Rki.ImportToSql.Models
 {
+    // TODO versioning
     public class FileSchema
     {
         public DropDownItem DropDownItem { get; set; }
+        
         public Type TypeDomainSchema { get; set; }
+        
+        /// <summary>
+        /// Singleton object, n domain classes can share the same db / repo / context
+        /// </summary>
         public BaseRepo Repository { get; set; }
+
         public ApplicationNetworkModeType ApplicationNetworkMode { get; set; }
 
         public FileSchema(DropDownItem dropDownItem, Type typeDomainSchema, BaseRepo repository, ApplicationNetworkModeType applicationNetworkMode)
@@ -36,27 +43,22 @@ namespace Rki.ImportToSql.Models
         {
             new FileSchema(new DropDownItem("Test01", "/resources/images/grau.png"),
                 typeof(Test1),
-                new RepoTest1(),
+                RepoTest1.SingletonRepo,
                 ApplicationNetworkModeType.INMEMORY
                 ),
             new FileSchema(new DropDownItem("Test02", "/resources/images/gelb.png"),
                 typeof(Test2),
-                new RepoTest2(),
+                RepoTest2.SingletonRepo,
                 ApplicationNetworkModeType.LOCAL
-                ),
-            new FileSchema(new DropDownItem("Schema03", "/resources/images/gruen.png"),
-                typeof(Schema03Anmeldungen),
-                new RepoSchema03(),
-                ApplicationNetworkModeType.LAN                
                 ),
             new FileSchema(new DropDownItem("COALA_Prozessdaten", "/resources/images/rot.png"),
                 typeof(GsProzessdaten),
-                new InterfaceDbContext(),
+                InterfaceDbContext.SingletonRepo,
                 ApplicationNetworkModeType.LAN
                 ),
             new FileSchema(new DropDownItem("IMIRA", "/resources/images/Icon_freigegeben.jpg"),
                 typeof(Imira),
-                new RepoImira(),
+                RepoTest2.SingletonRepo,
                 ApplicationNetworkModeType.INMEMORY
                 )
         };

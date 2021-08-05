@@ -66,15 +66,15 @@ namespace Rki.ImportToSql.Helper
                     csv.Context.RegisterClassMap<TMap>();
                     records = csv.GetRecords<T>().ToList();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    if (e is FieldValidationException)
+                    if (ex is FieldValidationException)
                     {
-                        StaticHelper.MyMessageBoxNotification(e.Message+"\nField: "+(e as FieldValidationException).Field, MessageBoxImage.Error);
+                        StaticHelper.MyMessageBoxNotification(ex.Message+"\nField: "+(ex as FieldValidationException).Field, MessageBoxImage.Error);
                     }
                     else
                     {
-                        StaticHelper.MyMessageBoxNotification(e.Message, MessageBoxImage.Error);
+                        StaticHelper.MyMessageBoxNotification(ex.Message, MessageBoxImage.Error);
                     }
                     // (SQL) TODO logging here
                     records = null; // must be set in using statement
@@ -94,6 +94,7 @@ namespace Rki.ImportToSql.Helper
                 return csv.HeaderRecord.ToList();
             }
         }
+        // TODO encoding ok?
         private static CsvConfiguration csvConfigurationStandard => new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
 
 

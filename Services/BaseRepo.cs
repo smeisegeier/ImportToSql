@@ -19,7 +19,7 @@ namespace Rki.ImportToSql.Services
     /// 2b) when using code-first (have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties) 
     /// Add-Migration Schema03 -Context RepoSchema03
     /// Update-Database -Context RepoImira
-    /// 3a) Add Repo to that class under /services
+    /// 3a) Add Repo for target Db under /services
     /// 3b) Tweak connection strings, paths etc. to fit to each other
     /// 4) Add a csvhelper mapping class for domain classes, including validation
     /// 5) Register a new FileSchema, using all these classes
@@ -27,11 +27,7 @@ namespace Rki.ImportToSql.Services
     /// </summary>
     public abstract class BaseRepo : DbContext
     {
-
-        public string TargetPathInfo => string.Format("{0}.{1}.{2}", TargetDbName, TargetSchemaName, TargetTableName);
         public abstract string TargetDbName { get; }
-        public abstract string TargetSchemaName { get; }
-        public abstract string TargetTableName { get; }
 
         /// <summary>
         /// Checks if the list first element hash value exists in table

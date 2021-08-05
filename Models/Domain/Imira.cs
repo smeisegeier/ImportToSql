@@ -1,4 +1,5 @@
 ﻿using CsvHelper.Configuration;
+using Rki.ImportToSql.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,7 @@ namespace Rki.ImportToSql.Models.Domain
 {
     public class Imira : BaseModel
     {
+
         public override string Hash => Lfdnr.ToString();
 
         public int Lfdnr { get; set; }

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Rki.ImportToSql.Migrations.RepoImiraMigrations
+namespace Rki.ImportToSql.Migrations
 {
-    public partial class Init : Migration
+    public partial class MultipleTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,7 @@ namespace Rki.ImportToSql.Migrations.RepoImiraMigrations
                     Point = table.Column<int>(type: "int", nullable: false),
                     Titel = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Vorname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Vorname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Strasse_HNR = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Adresszusatz = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sex = table.Column<string>(type: "nvarchar(max)", nullable: true),

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rki.ImportToSql.Services;
 
-namespace Rki.ImportToSql.Migrations.RepoImiraMigrations
+namespace Rki.ImportToSql.Migrations
 {
-    [DbContext(typeof(RepoImira))]
-    [Migration("20210805090226_MinLength")]
-    partial class MinLength
+    [DbContext(typeof(RepoTest2))]
+    [Migration("20210805115321_MultipleTables")]
+    partial class MultipleTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,12 +107,35 @@ namespace Rki.ImportToSql.Migrations.RepoImiraMigrations
                         .HasColumnType("int");
 
                     b.Property<string>("Vorname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("ImiraImport");
+                });
+
+            modelBuilder.Entity("Rki.ImportToSql.Models.Domain.Test2", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ImportTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tests2");
                 });
 #pragma warning restore 612, 618
         }

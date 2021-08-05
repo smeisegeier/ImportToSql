@@ -11,6 +11,8 @@ namespace Rki.ImportToSql.Models.Domain
 {
     public class Test2 : BaseModel
     {
+        public static RepoTest2 SingletonRepo { get; } = new RepoTest2();
+
         public string Text { get; set; }
 
         public string Description { get; set; }
@@ -30,8 +32,6 @@ namespace Rki.ImportToSql.Models.Domain
         /// ctor needed for csvhelper
         /// </summary>
         public Test2() { }
-
-        public override string ToString() => string.Format("{0}-{1}-{2}", Id, Text, Description);
 
         public static List<Test2> GetDefaultValues() => new List<Test2>()
         {

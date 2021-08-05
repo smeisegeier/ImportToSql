@@ -254,7 +254,7 @@ namespace Rki.ImportToSql.ViewModels
             string messageHeader = string.Format("File is of type: {0}\nItems found in target: {1}\nTargetPath: {2}\n\n",
                 typeof(T).Name,
                 repo.ItemsGetCount<T>(),
-                repo.TargetPathInfo
+                repo.TargetDbName
                 );
 
             // duplicates?
@@ -294,7 +294,7 @@ namespace Rki.ImportToSql.ViewModels
                 addListBoxItem("No items were added", Globals.COLOR_DANGER);
             else
             {
-                string text = string.Format("+{0} items of <{1}> to {2}", count, typeof(T).Name, repo.TargetPathInfo);
+                string text = string.Format("+{0} items of <{1}> to {2}", count, typeof(T).Name, repo.TargetDbName);
                 _logger.Info(addListBoxItem(text, Globals.COLOR_CHANGE));
             }
         }
