@@ -16,20 +16,22 @@ namespace Rki.ImportToSql.Services
     /// 2) This needs a DbContext for the Target Database, if not already present
     /// 2a) when using db-first approach: packetmanager:
     /// Scaffold-DbContext "Server=abt2sqldev01;Database=InterfaceDb;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Temp -UseDatabaseNames
-    /// 2b) when using code-first: packetmanager: 
-    /// Add-Migrations Schema03 -Context RepoSchema03
+    /// 2b) when using code-first (have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties) 
+    /// Add-Migration Schema03 -Context RepoSchema03
+    /// Update-Database -Context RepoImira
     /// 3a) Add Repo to that class under /services
-    /// 3b) In that repo, have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties. 
-    /// 3c) Tweak connection strings, paths etc. to fit to each other
-    /// 4) Add a csvhelper mapping class for domain classes
+    /// 3b) Tweak connection strings, paths etc. to fit to each other
+    /// 4) Add a csvhelper mapping class for domain classes, including validation
     /// 5) Register a new FileSchema, using all these classes
     /// 6) complete selector in viewModel (onUpload)
     /// </summary>
     public abstract class BaseRepo : DbContext
     {
 
-        public abstract string TargetPathInfo { get; }
-
+        public string TargetPathInfo => string.Format("{0}.{1}.{2}", TargetDbName, TargetSchemaName, TargetTableName);
+        public abstract string TargetDbName { get; }
+        public abstract string TargetSchemaName { get; }
+        public abstract string TargetTableName { get; }
 
         /// <summary>
         /// Checks if the list first element hash value exists in table

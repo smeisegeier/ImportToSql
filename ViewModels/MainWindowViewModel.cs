@@ -163,6 +163,21 @@ namespace Rki.ImportToSql.ViewModels
             /* fetch header, then class */
             var csvHeader = StaticHelper.GetHeaderFromCsv(DropFilePathFull);
 
+            #region Imira
+            // manual || (auto detected + no schema selected)
+            if (selectedFileSchema?.TypeDomainSchema == typeof(Imira)
+                || (StaticHelper.GetClassProperties<Imira>().HasSameElements(csvHeader)
+                    && selectedFileSchema?.TypeDomainSchema is null)
+                )
+            {
+                // user => ok?
+                if (StaticHelper.GetClassFromCsv<Imira, ImiraMap>(DropFilePathFull, out List<Imira> listImira))
+                    processUpload(listImira, FileSchema.GetFileSchemaByDomainType(typeof(Imira)));
+                return;
+            }
+            #endregion
+
+
             #region Schema01
             // manual || (auto detected + no schema selected)
             if (selectedFileSchema?.TypeDomainSchema == typeof(Test1)
@@ -191,10 +206,20 @@ namespace Rki.ImportToSql.ViewModels
             }
             #endregion
 
-
-
             #region COALA_Prozessdaten
-
+            // manual || (auto detected + no schema selected)
+            if (selectedFileSchema?.TypeDomainSchema == typeof(GsProzessdaten)
+                || (StaticHelper.GetClassProperties<GsProzessdaten>().HasSameElements(csvHeader)
+                    && selectedFileSchema?.TypeDomainSchema is null)
+                )
+            {
+                // user => ok?
+                if (StaticHelper.GetClassFromCsv<GsProzessdaten, GsProzessdatenMap>(DropFilePathFull, out List<GsProzessdaten> list2))
+                {
+                    processUpload(list2, FileSchema.GetFileSchemaByDomainType(typeof(GsProzessdaten)));
+                }
+                return;
+            }
             #endregion
 
 
@@ -214,8 +239,18 @@ namespace Rki.ImportToSql.ViewModels
             if (!list.Any())
                 return;
 
-            /* prepare vars */
             var repo = fileSchema.Repository;
+            #region TargetNotExists
+            //// target nonexists, and not inmemory?
+            //if (fileSchema.ApplicationNetworkMode != ApplicationNetworkModeType.INMEMORY
+            //    && !DextersLabor.EfCoreHelper.CheckIfTableExists(repo, repo.TargetSchemaName, repo.TargetTableName))
+            //{
+            //    if (StaticHelper.MyMessageBoxNotificationYesNo(string.Format("Target {0} does not exist. Create?", repo.TargetPathInfo)))
+            //        return;
+            //}
+            #endregion
+
+            /* prepare vars */
             string messageHeader = string.Format("File is of type: {0}\nItems found in target: {1}\nTargetPath: {2}\n\n",
                 typeof(T).Name,
                 repo.ItemsGetCount<T>(),

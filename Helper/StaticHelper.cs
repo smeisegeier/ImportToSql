@@ -68,9 +68,16 @@ namespace Rki.ImportToSql.Helper
                 }
                 catch (Exception e)
                 {
-                    StaticHelper.MyMessageBoxNotification(e.Message, MessageBoxImage.Error);
-                    // TODO logging here
-                    records = null;
+                    if (e is FieldValidationException)
+                    {
+                        StaticHelper.MyMessageBoxNotification(e.Message+"\nField: "+(e as FieldValidationException).Field, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        StaticHelper.MyMessageBoxNotification(e.Message, MessageBoxImage.Error);
+                    }
+                    // (SQL) TODO logging here
+                    records = null; // must be set in using statement
                     return false;
                 }
                 return true;

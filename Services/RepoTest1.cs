@@ -18,6 +18,8 @@ namespace Rki.ImportToSql.Services
             optionsBuilder.UseInMemoryDatabase(@"Test1");
         }
 
-        public override string TargetPathInfo => "[server].[db].[schema].[table1]";
+        public override string TargetDbName => "lol";
+        public override string TargetSchemaName => "dbo";
+        public override string TargetTableName => "table1";
     }
 }

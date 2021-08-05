@@ -37,7 +37,7 @@ namespace Rki.ImportToSql.Models
             new FileSchema(new DropDownItem("Test01", "/resources/images/grau.png"),
                 typeof(Test1),
                 new RepoTest1(),
-                ApplicationNetworkModeType.LAN
+                ApplicationNetworkModeType.INMEMORY
                 ),
             new FileSchema(new DropDownItem("Test02", "/resources/images/gelb.png"),
                 typeof(Test2),
@@ -47,12 +47,17 @@ namespace Rki.ImportToSql.Models
             new FileSchema(new DropDownItem("Schema03", "/resources/images/gruen.png"),
                 typeof(Schema03Anmeldungen),
                 new RepoSchema03(),
-                ApplicationNetworkModeType.VLAN                
+                ApplicationNetworkModeType.LAN                
                 ),
-            new FileSchema(new DropDownItem("COALA_Prozessdaten", "/resources/images/gelb.png"),
+            new FileSchema(new DropDownItem("COALA_Prozessdaten", "/resources/images/rot.png"),
                 typeof(GsProzessdaten),
                 new InterfaceDbContext(),
                 ApplicationNetworkModeType.LAN
+                ),
+            new FileSchema(new DropDownItem("IMIRA", "/resources/images/Icon_freigegeben.jpg"),
+                typeof(Imira),
+                new RepoImira(),
+                ApplicationNetworkModeType.INMEMORY
                 )
         };
 

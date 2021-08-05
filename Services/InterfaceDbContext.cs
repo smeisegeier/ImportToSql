@@ -8,9 +8,12 @@ using Rki.ImportToSql.Models.Domain;
 
 namespace Rki.ImportToSql.Services
 {
+    // TODO !!! what if 1 dbcontext -> n tables
     public partial class InterfaceDbContext : BaseRepo
     {
-        public override string TargetPathInfo => "[abt2sqldev01].[InterfaceDb].[COALA].[COALA_GS_Prozessdaten]";
+        public override string TargetDbName => "InterfaceDb";
+        public override string TargetSchemaName => "COALA";
+        public override string TargetTableName => "COALA_GS_Prozessdaten";
 
         public virtual DbSet<GsProzessdaten> GsProzessdatens { get; set; }
 
@@ -28,7 +31,7 @@ namespace Rki.ImportToSql.Services
 
             modelBuilder.Entity<GsProzessdaten>(entity =>
             {
-                entity.ToTable("GS_Prozessdaten", "COALA");
+                entity.ToTable(TargetTableName, TargetSchemaName);
             });
 
 

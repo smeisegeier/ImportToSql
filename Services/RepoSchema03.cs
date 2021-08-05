@@ -18,6 +18,8 @@ namespace Rki.ImportToSql.Services
             optionsBuilder.UseSqlServer(@"server=(localdb)\mssqllocaldb; database=DeaClearing;trusted_connection=true;");
         }
 
-        public override string TargetPathInfo => "[server].[DeaClearing].[dbo].[Anmeldungen]";
+        public override string TargetDbName => "DeaClearing";
+        public override string TargetSchemaName => "dbo";
+        public override string TargetTableName => "Anmeldungen";
     }
 }

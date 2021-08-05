@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 
 //#nullable disable
@@ -39,8 +40,14 @@ namespace Rki.ImportToSql.Models.Domain
         public int? QNA { get; set; }
 
         public override string Hash => string.Format("{0}_{1}_{2}",ANR,KitaId,HaushaltId);
-
-
+    }
+    public class GsProzessdatenMap : ClassMap<GsProzessdaten>
+    {
+        public GsProzessdatenMap()
+        {
+            Map(m => m.ANR);
+            // ...
+        }
 
     }
 }

@@ -7,20 +7,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Files\Imira.csv" />
     <None Remove="NLog.config" />
     <None Remove="Resources\images\blau.png" />
+    <None Remove="Resources\images\cancel.png" />
+    <None Remove="Resources\images\default_icon.png" />
+    <None Remove="Resources\images\Details.png" />
     <None Remove="Resources\images\Drag_csv.png" />
     <None Remove="Resources\images\gelb.png" />
     <None Remove="Resources\images\grau.png" />
     <None Remove="Resources\images\gruen.png" />
+    <None Remove="Resources\images\Icon_Disc.png" />
     <None Remove="Resources\images\Icon_Exit.jpg" />
+    <None Remove="Resources\images\Icon_Freigegeben.jpg" />
+    <None Remove="Resources\images\icon_lupe.jpg" />
+    <None Remove="Resources\images\Icon_NOK.png" />
+    <None Remove="Resources\images\Icon_OK.jpg" />
+    <None Remove="Resources\images\Icon_Storno.jpg" />
+    <None Remove="Resources\images\info3.png" />
+    <None Remove="Resources\images\info4.png" />
+    <None Remove="Resources\images\lila.png" />
+    <None Remove="Resources\images\rot.png" />
+    <None Remove="Resources\images\save.png" />
+    <None Remove="Resources\images\warning.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Files\Imira.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\images\blau.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\cancel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\default_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\Details.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\images\Drag_csv.png">
@@ -35,10 +63,47 @@
     <Content Include="Resources\images\gruen.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\images\Icon_Disc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\Icon_Freigegeben.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\icon_lupe.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\Icon_NOK.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\Icon_OK.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\Icon_Storno.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\info3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\info4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\lila.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\rot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\save.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\images\warning.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.1.1" />
+    <PackageReference Include="DextersLabor" Version="0.9.2" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.8" />

@@ -16,9 +16,10 @@ namespace Rki.ImportToSql
         public static readonly Brush COLOR_SUCCESS = Brushes.DarkGreen;
         public static readonly Brush COLOR_CHANGE = Brushes.Purple;
         public static readonly Brush COLOR_DANGER = Brushes.Red;
-        public static readonly string URL_USERDOC = "https://www.rki.de";
+        public static readonly string URL_USERDOC = 
+            "https://dev.azure.com/dexterRki/RKI/_wiki/wikis/RKI.wiki/28/ImportToSql-manual";
 
-        public static readonly ApplicationNetworkModeType ApplicationNetworkMode = ApplicationNetworkModeType._ALL;
+        public static readonly ApplicationNetworkModeType ApplicationNetworkMode = ApplicationNetworkModeType._HOMEOFFICE;
     }
 
     [Flags]
@@ -27,12 +28,9 @@ namespace Rki.ImportToSql
         VLAN = 1,
         LAN = 2,
         LOCAL = 4,
-        _ALL = 7,
-        _RKI = 3
+        INMEMORY = 8,
+        _ALL = 15,
+        _RKISERVERONLY = 3,
+        _HOMEOFFICE = 12
     }
-
-    // TODO sql logging
-    // TODO multistage messages (import -> write)
-    // TODO azure doc
-    // TODO [InterfaceDb].[COALA].[GS_Prozessdaten]
 }

@@ -15,7 +15,9 @@ namespace Rki.ImportToSql.Services
             optionsBuilder.UseSqlServer(@"server=(localdb)\mssqllocaldb; database=Test2;trusted_connection=true;");
         }
 
-        public override string TargetPathInfo => "[server].[db].[schema].[table2]";
+        public override string TargetDbName => "xd";
+        public override string TargetSchemaName => "dbo";
+        public override string TargetTableName => "table2";
     }
 
 }

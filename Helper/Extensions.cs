@@ -10,15 +10,14 @@ namespace Rki.ImportToSql.Helper
 {
     public static class Extensions
     {
-
-
-        // TODO success not really working on deserializing
-
         /// <summary>
         /// Parses a json string into an object of given Type. 
         /// Examle: if (json.TryParseJson(out JsonClass result))
         /// https://stackoverflow.com/questions/23906220/deserialize-json-in-a-tryparse-way
         /// </summary>
+        /// <remarks>
+        /// TODO success result still not really working on deserializing
+        /// </remarks>
         /// <typeparam name="T">target type, object is created inside</typeparam>
         /// <param name="this">json string</param>
         /// <param name="result">object to be used outside</param>
