@@ -13,7 +13,7 @@ namespace Rki.ImportToSql.Models.Domain
     public class Imira : BaseModel
     {
 
-        public override string Hash => Lfdnr.ToString();
+        public override string Hash => $"{Name}_{Vorname}_{Strasse_HNR}";
 
         public int Lfdnr { get; set; }
         public int Tranche { get; set; }

@@ -4,8 +4,7 @@ using Rki.ImportToSql.Models.Domain;
 
 namespace Rki.ImportToSql.Services
 {
-    // Add-Migration Init -Context RepoTest2
-    // Update-Database -Context RepoTest2
+
     public class RepoTest2 : BaseRepo
     {
         // Add-Migration Init -Context RepoImira
@@ -14,7 +13,6 @@ namespace Rki.ImportToSql.Services
 
 
         public DbSet<Test2> Tests2 { get; set; }
-        public DbSet<Imira> ImiraImport { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,6 +20,7 @@ namespace Rki.ImportToSql.Services
         }
 
         public override string TargetDbName => "Test2";
+        public override ApplicationNetworkModeType _ApplicationNetworkModeType => ApplicationNetworkModeType.LOCAL;
     }
 
 }

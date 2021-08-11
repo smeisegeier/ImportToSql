@@ -22,5 +22,6 @@ namespace Rki.ImportToSql.Services
         }
 
         public override string TargetDbName => "Test1";
+        public override ApplicationNetworkModeType _ApplicationNetworkModeType => ApplicationNetworkModeType.INMEMORY;
     }
 }

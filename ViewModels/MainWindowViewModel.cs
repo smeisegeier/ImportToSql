@@ -23,7 +23,7 @@ namespace Rki.ImportToSql.ViewModels
 
 
         /* DropDown area*/
-        public IEnumerable<DropDownItem> DropDownItems => FileSchema.ListOfAllFileSchemas.Select(x => x.DropDownItem) ?? new List<DropDownItem>();
+        public IEnumerable<DropDownItem> DropDownItems => FileSchema.ListOfAvailableFileSchemas.Select(x => x.DropDownItem) ?? new List<DropDownItem>();
         public DropDownItem SelectedDropDownItem
         {
             get => _selectedDropDownItem;
@@ -242,7 +242,7 @@ namespace Rki.ImportToSql.ViewModels
             var repo = fileSchema.Repository;
             #region TargetNotExists
             //// target nonexists, and not inmemory?
-            //if (fileSchema.ApplicationNetworkMode != ApplicationNetworkModeType.INMEMORY
+            //if (fileSchema.ApplicationNetworkMode != _ApplicationNetworkModeType.INMEMORY
             //    && !DextersLabor.EfCoreHelper.CheckIfTableExists(repo, repo.TargetSchemaName, repo.TargetTableName))
             //{
             //    if (StaticHelper.MyMessageBoxNotificationYesNo(string.Format("Target {0} does not exist. Create?", repo.TargetPathInfo)))

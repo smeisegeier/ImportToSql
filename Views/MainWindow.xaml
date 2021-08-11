@@ -40,7 +40,7 @@
             <!--FilePathDisplay-->
             <DockPanel DockPanel.Dock="Top"
                        Margin="10,10,10,0">
-                <Label Content="FilePath" FontWeight="SemiBold"/>
+                <Label Content="Path to UTF-8 file" FontWeight="SemiBold"/>
                 <TextBox TextWrapping="Wrap" 
                          Text="{Binding DropFilePathFull, Mode=OneWay}" 
                          IsEnabled="False" 

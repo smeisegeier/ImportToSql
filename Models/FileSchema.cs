@@ -21,14 +21,11 @@ namespace Rki.ImportToSql.Models
         /// </summary>
         public BaseRepo Repository { get; set; }
 
-        public ApplicationNetworkModeType ApplicationNetworkMode { get; set; }
-
-        public FileSchema(DropDownItem dropDownItem, Type typeDomainSchema, BaseRepo repository, ApplicationNetworkModeType applicationNetworkMode)
+        public FileSchema(DropDownItem dropDownItem, Type typeDomainSchema, BaseRepo repository)
         {
             DropDownItem = dropDownItem;
             TypeDomainSchema = typeDomainSchema;
             Repository = repository;
-            ApplicationNetworkMode = applicationNetworkMode;
         }
 
         /// <summary>
@@ -36,30 +33,26 @@ namespace Rki.ImportToSql.Models
         /// This MUST be initialized only once
         /// enums flags are used
         /// </summary>
-        public static IEnumerable<FileSchema> ListOfAllFileSchemas => _listOfAllFileSchemas
-            .Where(x => Globals.ApplicationNetworkMode.HasFlag(x.ApplicationNetworkMode));
+        public static IEnumerable<FileSchema> ListOfAvailableFileSchemas => _listOfAllFileSchemas
+            .Where(x => Globals.ApplicationNetworkMode.HasFlag(x.Repository._ApplicationNetworkModeType));
 
         private static IEnumerable<FileSchema> _listOfAllFileSchemas = new List<FileSchema>()
         {
             new FileSchema(new DropDownItem("Test01", "/resources/images/grau.png"),
                 typeof(Test1),
-                RepoTest1.SingletonRepo,
-                ApplicationNetworkModeType.INMEMORY
+                RepoTest1.SingletonRepo
                 ),
             new FileSchema(new DropDownItem("Test02", "/resources/images/gelb.png"),
                 typeof(Test2),
-                RepoTest2.SingletonRepo,
-                ApplicationNetworkModeType.LOCAL
+                RepoTest2.SingletonRepo
                 ),
             new FileSchema(new DropDownItem("COALA_Prozessdaten", "/resources/images/rot.png"),
                 typeof(GsProzessdaten),
-                InterfaceDbContext.SingletonRepo,
-                ApplicationNetworkModeType.LAN
+                InterfaceDbContext.SingletonRepo
                 ),
             new FileSchema(new DropDownItem("IMIRA", "/resources/images/Icon_freigegeben.jpg"),
                 typeof(Imira),
-                RepoTest2.SingletonRepo,
-                ApplicationNetworkModeType.INMEMORY
+                InterfaceDbContext.SingletonRepo
                 )
         };
 
@@ -69,7 +62,7 @@ namespace Rki.ImportToSql.Models
         /// <param name="dropDownItem"></param>
         /// <returns></returns>
         public static FileSchema GetFileSchemaByDropDownItem(DropDownItem dropDownItem) =>
-            ListOfAllFileSchemas.FirstOrDefault(x => x.DropDownItem == dropDownItem);
+            ListOfAvailableFileSchemas.FirstOrDefault(x => x.DropDownItem == dropDownItem);
 
         /// <summary>
         /// Get encapsuling object of a Domain type
@@ -77,7 +70,7 @@ namespace Rki.ImportToSql.Models
         /// <param name="dropDownItem"></param>
         /// <returns></returns>
         public static FileSchema GetFileSchemaByDomainType(Type typeDomainSchema) =>
-            ListOfAllFileSchemas.FirstOrDefault(x => x.TypeDomainSchema == typeDomainSchema);
+            ListOfAvailableFileSchemas.FirstOrDefault(x => x.TypeDomainSchema == typeDomainSchema);
 
     }
 }

@@ -94,8 +94,8 @@ namespace Rki.ImportToSql.Helper
                 return csv.HeaderRecord.ToList();
             }
         }
-        // TODO encoding ok?
-        private static CsvConfiguration csvConfigurationStandard => new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
+
+        private static CsvConfiguration csvConfigurationStandard => new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF32};
 
 
         public static List<string> GetClassProperties<T>() => GetClassProperties(typeof(T));

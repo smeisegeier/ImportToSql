@@ -18,8 +18,9 @@ namespace Rki.ImportToSql
         public static readonly Brush COLOR_DANGER = Brushes.Red;
         public static readonly string URL_USERDOC = 
             "https://dev.azure.com/dexterRki/RKI/_wiki/wikis/RKI.wiki/28/ImportToSql-manual";
+        public static readonly string DEFAULT_TABLE_NAME = "ImportFromSql";
 
-        public static readonly ApplicationNetworkModeType ApplicationNetworkMode = ApplicationNetworkModeType._HOMEOFFICE;
+        public static readonly ApplicationNetworkModeType ApplicationNetworkMode = ApplicationNetworkModeType._RKISERVERONLY;
     }
 
     [Flags]

@@ -20,10 +20,8 @@ namespace Rki.ImportToSql
         {
             _logger.Info("App started");
 
-            /* setup repo*/
+            /* setup repo (dont do)*/
             //ensureAllRepositories();
-
-            //Test1.Repo.ItemAddList(Test1.GetDefaultValues());
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.DataContext = new MainWindowViewModel();
@@ -32,7 +30,7 @@ namespace Rki.ImportToSql
 
         private static void ensureAllRepositories()
         {
-            FileSchema.ListOfAllFileSchemas.ToList().ForEach(x =>
+            FileSchema.ListOfAvailableFileSchemas.ToList().ForEach(x =>
             {
                 try
                 {
