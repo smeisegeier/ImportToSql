@@ -95,7 +95,7 @@ namespace Rki.ImportToSql.Helper
             }
         }
 
-        private static CsvConfiguration csvConfigurationStandard => new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF32};
+        private static CsvConfiguration csvConfigurationStandard => new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF8};
 
 
         public static List<string> GetClassProperties<T>() => GetClassProperties(typeof(T));
