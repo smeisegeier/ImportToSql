@@ -1,62 +1,170 @@
 ﻿<Window x:Class="Rki.ImportToSql.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Rki.ImportToSql.Views"
-        mc:Ignorable="d"
         xmlns:vm="clr-namespace:Rki.ImportToSql.ViewModels"
+        xmlns:toggle="clr-namespace:ToggleSwitch;assembly=ToggleSwitch"
+        xmlns:behaviours="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
-        Title="Import this" Height="600" Width="400">
+        Title="Import this!" Height="800" Width="600">
     <Grid>
-
-        <StackPanel Margin="10,0,10,0" >
-            <StackPanel HorizontalAlignment="Center">
-                <Label x:Name="Header" Content="Import" FontSize="24" FontWeight="Bold" Margin="0,10,0,10"/>
-            </StackPanel>
-            <StackPanel>
-                <Button Content="*DEBUG*" FontWeight="Bold" Height="42" Margin="0,5,0,5"
-                    Command="{Binding UploadCommand}"
-                    />
-            </StackPanel>
-            <StackPanel>
-                <Image Source="/Resources/Images/Drag_csv.png" 
-                       AllowDrop="True" Drop="Grid_Drop" Stretch="None"/>
-            </StackPanel>
-
-            <StackPanel Margin="10">
-                <DockPanel HorizontalAlignment="Left">
-                    <Label x:Name="lcsvPath" Content="Csv-Pfad"/>
-                    <Grid Width="20"></Grid>
-                    <Button x:Name="btn_debug" Content="debug 2" Width="200"/>
+        <DockPanel>
+            <StackPanel Margin="10,10,10,0" 
+                        DockPanel.Dock="Top">
+                <DockPanel >
+                    <Button Content="Open doc" Command="{Binding CommandOpenDoc}"/>
                 </DockPanel>
             </StackPanel>
-            <StackPanel Margin="10">
-                <TextBox x:Name="tbCsvPath" TextWrapping="Wrap" Text="" IsEnabled="False"/>
+            <!--Dropzone-->
+            <StackPanel Margin="10,10,10,0"
+                        DockPanel.Dock="Top">
+                <Border BorderBrush="Gray" BorderThickness="1">
+                    <Image Source="/Resources/Images/Drag_csv.png"
+                           AllowDrop="True"
+                           Stretch="None"                        
+                           >
+                        <behaviours:Interaction.Triggers>
+                            <behaviours:EventTrigger EventName="Drop">
+                                <behaviours:InvokeCommandAction 
+                                Command="{Binding DropCommand}"
+                                PassEventArgsToCommand="True" 
+                                />
+                            </behaviours:EventTrigger>
+                        </behaviours:Interaction.Triggers>
+                    </Image>
+                </Border>
             </StackPanel>
-            <StackPanel>
-                <Button Command="{Binding UploadCommand}" 
-                        Content="Upload" 
-                        FontFamily="Bold" Width="250"/>
-            </StackPanel>
-        </StackPanel>
-        
-        
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-            <DockPanel>
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" MinWidth="200" Margin="10,0,0,10">
-                    <Label x:Name="lVersion" Content="Version"/>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
-                    <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit" 
-                            Command="{Binding ExitCommand}"
-                            ToolTipService.InitialShowDelay="10" 
-                            >
-                        <Image Source="/Resources/Images/Icon_Exit.jpg" Height="30" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Button>
-                </StackPanel>
+            <!--FilePathDisplay-->
+            <DockPanel DockPanel.Dock="Top"
+                       Margin="10,10,10,0">
+                <Label Content="Path to UTF-8 file" FontWeight="SemiBold"/>
+                <TextBox TextWrapping="Wrap" 
+                         Text="{Binding DropFilePathFull, Mode=OneWay}" 
+                         IsEnabled="False" 
+                         VerticalAlignment="Center"
+                         BorderBrush="{Binding FilePathColor}"                         
+                         />
             </DockPanel>
-        </StackPanel>
-
+            <!--Buttons-->
+            <StackPanel DockPanel.Dock="Top">
+                <DockPanel Margin="10,10,10,0">
+                    <Label Content="AutoDetection" FontWeight="SemiBold"/>
+                    <toggle:HorizontalToggleSwitch>
+                        <behaviours:Interaction.Triggers>
+                            <behaviours:EventTrigger EventName="Checked">
+                                <behaviours:InvokeCommandAction 
+                                Command="{Binding CheckedCommand}"
+                                PassEventArgsToCommand="True" 
+                                />
+                            </behaviours:EventTrigger>
+                            <behaviours:EventTrigger EventName="Unchecked">
+                                <behaviours:InvokeCommandAction 
+                                Command="{Binding UncheckedCommand}"
+                                PassEventArgsToCommand="True" 
+                                />
+                            </behaviours:EventTrigger>
+                        </behaviours:Interaction.Triggers>
+                    </toggle:HorizontalToggleSwitch>
+                    <ComboBox ItemsSource="{Binding DropDownItems}"
+                              SelectedItem="{Binding SelectedDropDownItem}"
+                              HorizontalAlignment="Stretch"
+                              IsEnabled="{Binding DropDownIsEnabled}"
+                              >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding IconPath}" Width="20" Height="20" />
+                                    <TextBlock Text="{Binding Name}"
+                                           FontWeight="Bold"
+                                           />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </DockPanel>
+                <Button Content="UPLOAD"
+                        FontWeight="Bold" Height="42" 
+                        Margin="10,10,10,0"
+                        Command="{Binding UploadCommand}" 
+                        IsEnabled="{Binding UploadIsEnabled}"
+                        />
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom"
+                        HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Bottom">
+                <DockPanel Margin="10,10,10,0">
+                    <StackPanel HorizontalAlignment="Left" 
+                            VerticalAlignment="Bottom" 
+                            MinWidth="200" 
+                            Margin="10,0,0,10">
+                        <Label Content="{Binding VersionInfo}"
+                               FontWeight="SemiBold"
+                               />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" 
+                                Visibility="{Binding IsUploadingVisibility, Mode=OneWay}" >
+                        <fa:ImageAwesome 
+                                     Icon="Refresh" 
+                                     Spin="True" 
+                                     Height="48" 
+                                     Width="48"
+                                     />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" MinWidth="70" Margin="0,0,10,10">
+                        <Button IsCancel="True" Width="70" Height="40" ToolTip="Exit"
+                            Command="{Binding ExitCommand}"
+                            ToolTipService.InitialShowDelay="10">
+                            <Image Source="/Resources/Images/Icon_Exit.jpg" 
+                               Height="30" 
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </StackPanel>
+            <!--Messages-->
+            <TextBlock DockPanel.Dock="Top" 
+                       Text="Messages" 
+                       FontWeight="Bold"
+                       Margin="10,10,10,0"
+                           />
+            <!--All other elements of the DockPanel have orientation. 
+            DataGrid is last child and fills-->
+            <DataGrid ItemsSource="{Binding ListBoxItems}"
+                          AutoGenerateColumns="False"
+                          CanUserResizeColumns="True"
+                          AlternatingRowBackground="#FFE9E9E9"
+                          AlternationCount="2" 
+                            >
+                <DataGrid.RowStyle>
+                    <!-- Switch off clicking on rows, but still preserve slider -->
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Time"
+                                                    Binding="{Binding TimeStamp}"
+                                                    />
+                    <DataGridTextColumn Header="File"
+                                                    Binding="{Binding FileName}"
+                                                    />
+                    <DataGridTemplateColumn Header="Message" Width="Auto">
+                        <!--template is needed to reflect text color-->
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--setting color requires template-->
+                                <TextBlock Text="{Binding Text}"
+                                                       Foreground="{Binding Foreground}"
+                                                       FontWeight="Bold"
+                                                       />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
     </Grid>
 </Window>

@@ -1,0 +1,14 @@
+﻿Lfdnr;Tranche;Point;Titel;Name;Vorname;Strasse_HNR;Adresszusatz;Sex;GebDat;PLZ;Ort;Ortsteil;Geburtsland_original;Geburtsland;Geburtsort;Familienstand;Staat1_original;Staat1;Staat2_original;Staat2;Staat3_original;Staat3;Staat_agg;Sperrvermerk;Gebdat_gesetzt
+1;1;2;Captain;America;Ant;Hackelnbrink 22;;m;15.11.1920;12345;MCU;;keine Angabe;201;Marvel;3;Türkei;2;;;;;türkisch;2;0
+2;1;2;;Hulk;Ant;Glückauf-Straße 14;;m;27.02.1921;12345;MCU;;keine Angabe;201;Marvel;4;Italien;4;;;;;italienisch;2;0
+3;1;2;;Loki;Ant;Harzstraße 1;;m;02.06.1921;12345;MCU;;keine Angabe;201;Marvel;1;Polen;8;;;;;polnisch;2;0
+4;1;2;;Falcon;Ant;Lange Straße 7;;m;28.06.1921;12345;MCU;;keine Angabe;201;Marvel;3;Kroatien;19;;;;;kroatisch;2;0
+5;1;2;;Man;Ant;An der Mönchewiese 5;;m;25.06.1922;12345;MCU;;keine Angabe;201;Marvel;3;Syrien;181;;;;;syrisch;2;0
+6;1;2;;Man;Spider;Steinweg 47;;m;16.12.1923;12345;MCU;;keine Angabe;201;Marvel;3;Republik Syrien;181;;;;;syrisch;2;0
+7;1;2;;Thor;Spider;Lange Straße 7;;m;11.02.1924;12345;MCU;;keine Angabe;201;Marvel;3;syrsich;181;;;;;syrisch;2;0
+8;1;2;;Soldier;Winter;Heinrich-Steinweg-Straße 17;;m;08.10.1924;12345;MCU;;keine Angabe;201;Marvel;3;syr.;181;;;;;syrisch;2;0
+9;1;2;;Widow;Black;Lange Straße 7;;w;15.01.1925;12345;MCU;;keine Angabe;201;Marvel;3;Türkei;2;Polen;8;Italien;4;türkisch;2;0
+10;1;2;;Panther;Black;Lehmkuhlenstraße 1;;m;22.09.1925;12345;MCU;;keine Angabe;201;Marvel;3;Türkei;2;Polen;8;Italien;4;türkisch;2;0
+11;1;2;Doctor;Strange;Black;Obere Mühlenstraße 7;;m;08.02.1926;12345;MCU;;keine Angabe;201;Marvel;3;Türkei;2;Polen;8;Italien;4;türkisch;2;0
+12;2;2;;Man;Iron;An der Pulvermühle 9 A;;m;20.08.1926;12345;MCU;Kalifornien;keine Angabe;201;Marvel;3;Türkei;2;Polen;8;Italien;4;türkisch;2;0
+13;2;2;Captain;Marvel;Iron;Rosenstraße 21;;d;16.03.1927;12345;MCU;;keine Angabe;201;Marvel;3;Türkei;2;Polen;8;Italien;4;türkisch;2;0
