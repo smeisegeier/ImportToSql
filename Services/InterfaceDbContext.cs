@@ -22,9 +22,10 @@ namespace Rki.ImportToSql.Services
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=abt2sqldev01;Database=InterfaceDb;Trusted_Connection=True;TrustServerCertificate=true");
+                optionsBuilder.UseSqlServer(Globals.TEST_CON);
             }
         }
 

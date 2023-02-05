@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 /// 1) Add new domain class w/ properties in /models (note: give a meaningful hash, int Id is preset)
 /// 2) This needs a DbContext for the Target Database, if not already present
 /// 2a) when using db-first approach: packetmanager:
-/// Scaffold-DbContext "Server=abt2sqldev01;Database=InterfaceDb;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Temp -UseDatabaseNames
+/// Scaffold-DbContext "Server=XXX;Database=InterfaceDb;Trusted_Connection=True;TrustServerCertificate=true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Temp -UseDatabaseNames
 /// 2b) when using code-first (have DbSet and override OnConfiguration() w/ connString, also give auxiliary properties) 
 /// Add-Migration Schema03 -Context RepoSchema03
 /// Update-Database -Context RepoImira
@@ -32,7 +32,7 @@ namespace Rki.ImportToSql.Services
         /// <summary>
         /// Determines Network area of connection
         /// </summary>
-        public abstract ApplicationNetworkModeType _ApplicationNetworkModeType {get;}
+        public abstract ApplicationNetworkModeType _ApplicationNetworkModeType { get; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -55,14 +55,14 @@ namespace Rki.ImportToSql.Services
         /// <typeparam name="T">type of objects</typeparam>
         /// <param name="list">list of all objects</param>
         /// <returns>true | false</returns>
-        public bool ItemsExist<T>(IList<T> list)  where T : BaseModel => ItemsGetAll<T>().Any(x => x.Hash == list.First().Hash);
+        public bool ItemsExist<T>(IList<T> list) where T : BaseModel => ItemsGetAll<T>().Any(x => x.Hash == list.First().Hash);
 
-        public List<T> ItemsGetAll<T>() where T : BaseModel => Set<T>().OrderBy(x=>x.Id).ToList();
+        public List<T> ItemsGetAll<T>() where T : BaseModel => Set<T>().OrderBy(x => x.Id).ToList();
 
         public int ItemsGetCount<T>() where T : BaseModel => ItemsGetAll<T>().Count;
 
-        public T ItemGetById<T>(int id) where T : BaseModel => 
-            ItemsGetAll<T>().FirstOrDefault(x=>x.Id == id);
+        public T ItemGetById<T>(int id) where T : BaseModel =>
+            ItemsGetAll<T>().FirstOrDefault(x => x.Id == id);
 
         public T ItemGetByHash<T>(T obj) where T : BaseModel => ItemsGetAll<T>().FirstOrDefault(x => x.Hash == obj.Hash);
 
